@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 # class Review(models.Model):
 #     # რადგან API-დან მოგაქვს პროდუქტი, აქ პროდუქტის ID-ს ვინახავთ სტრიქონის სახით (_id)
 #     product_id = models.CharField(max_length=100)
 #     user_name = models.CharField(
 #         max_length=150
-#     )  
+#     )
 #     rating = models.IntegerField()  # ვარსკვლავების რაოდენობა (1-დან 5-მდე)
 #     created_at = models.DateTimeField(auto_now_add=True)
 
