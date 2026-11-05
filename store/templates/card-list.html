@@ -1,148 +1,161 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ონლაინ მაღაზია - მთავარი</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f7f6;
-        margin: 0;
-        padding: 0;
-      }
-      header {
-        background-color: #333;
-        color: white;
-        padding: 15px 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      header a {
-        color: white;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-      .container {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 0 20px;
-      }
-      .search-box {
-        margin-bottom: 30px;
-        display: flex;
-        gap: 10px;
-      }
-      .search-box input {
-        flex: 1;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-      .search-box button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-      }
-      .card {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      }
-      .card img {
-        width: 100%;
-        height: 180px;
-        object-fit: contain;
-        margin-bottom: 15px;
-      }
-      .card h3 {
-        font-size: 18px;
-        margin: 0 0 10px 0;
-      }
-      .card p {
-        margin: 5px 0;
-        color: #555;
-      }
-      .btn {
-        display: inline-block;
-        text-align: center;
-        background-color: #28a745;
-        color: white;
-        padding: 10px;
-        text-decoration: none;
-        border-radius: 4px;
-        margin-top: 10px;
-      }
-      .btn:hover {
-        background-color: #218838;
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>Buy popular products</title>
   </head>
   <body>
-
-    <!-- ნავთბარი -->
-    <header>
-      <h2>ონლაინ მაღაზია</h2>
-      <div>
-        {% if user.is_authenticated %}
-          <span>გამარჯობა, <b>{{ user.username }}</b></span>
-          <form action="{% url 'store:logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" style="background:none; border:none; color:white; cursor:pointer; margin-left:15px; font-size:16px;">გასვლა</button>
-          </form>
-        {% else %}
-          <a href="{% url 'store:login' %}">შესვლა</a>
-          <a href="{% url 'store:register' %}">რეგისტრაცია</a>
-        {% endif %}
-      </div>
-    </header>
-
     <div class="container">
-      <h2>პროდუქტების სია</h2>
+      <!-- Header -->
+      <header class="container-header">
+        <div></div>
 
-      <!-- ძებნის ველი -->
-      <form method="GET" class="search-box">
-        <input type="text" name="search" placeholder="მოძებნე სახელით..." value="{{ request.GET.search }}">
-        <button type="submit">ძებნა</button>
-      </form>
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-logo"
+          style="text-decoration: none"
+        >
+          <span
+            style="
+              color: var(--primary-coror-bright-cyan);
+              font-weight: bold;
+              font-size: 24px;
+            "
+            >Online Store</span
+          >
+        </a>
 
-      <!-- პროდუქტების ქარდები -->
-      <div class="products-grid">
-        {% if products %}
-          {% for product in products %}
-            <div class="card">
+        <!-- მარჯვენა მხარე: მომხმარებელი, გასვლა და კალათა -->
+        <div class="header-buttons">
+          {% if user.is_authenticated %}
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span
+              style="color: var(--primary-coror-bright-cyan); font-size: 16px"
+              >{{ user.username }}</span
+            >
+            <form
+              action="{% url 'store:logout' %}"
+              method="post"
+              style="display: inline; margin: 0"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="header-button"
+                title="გასვლა"
+                style="width: auto; padding: 0 12px; font-size: 14px"
+              >
+                გასვლა
+              </button>
+            </form>
+          </div>
+          {% else %}
+          <a href="{% url 'store:login' %}" class="header-button user-icon">
+            <img src="{% static 'images/user-icon.svg' %}" alt="user" />
+          </a>
+          {% endif %}
+          <button class="header-button cart-icon">
+            <img src="{% static 'images/cart-icon.svg' %}" alt="cart" />
+            <span id="cart-count">0</span>
+          </button>
+        </div>
+      </header>
+      <!-- Catalog / Filter & Products Section -->
+      <section class="page-2-section-container">
+        <form method="GET" class="page-2-filter-section">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by name"
+            class="filter-input"
+            value="{{ request.GET.search }}"
+          />
+          <select name="category" class="filter-input">
+            <option value="">All Categories</option>
+            <option value="laptops">Laptops</option>
+            <option value="phones">Phones</option>
+          </select>
+          <button type="submit" class="page-1-slider-next-button">
+            ფილტრი
+          </button>
+        </form>
+
+        <!-- Products Grid -->
+        <div class="page-2-products-catalog-section">
+          {% if products %} {% for product in products %}
+          <div class="page-2-products-catalog-card">
+            <div class="page-2-products-catalog-card-image-box">
               {% if product.thumbnail %}
-                <img src="{{ product.thumbnail }}" alt="{{ product.title }}">
+              <img
+                src="{{ product.thumbnail }}"
+                alt="{{ product.title }}"
+                class="page-2-products-catalog-card-image"
+              />
               {% endif %}
-              <div>
-                <h3>{{ product.title }}</h3>
-                <p>ფასი: <b>${{ product.price }}</b></p>
-                <p>რეიტინგი: ⭐ {{ product.rating }}</p>
-              </div>
-              <a href="#" class="btn">კალათაში დამატება</a>
             </div>
-          {% endfor %}
-        {% else %}
-          <p>პროდუქტები ვერ მოიძებნა.</p>
-        {% endif %}
-      </div>
-    </div>
+            <div
+              class="page-2-products-catalog-card-title-price-and-button-container"
+            >
+              <h3 class="page-2-products-catalog-card-title">
+                {{ product.title }}
+              </h3>
+              <div
+                class="page-2-products-catalog-card-price-and-button-container"
+              >
+                <span class="page-2-products-catalog-card-price"
+                  >${{ product.price }}</span
+                >
+                <button class="page-2-products-catalog-card-button">
+                  <img
+                    src="{% static 'images/cart-icon.svg' %}"
+                    alt="add to cart"
+                    style="width: 14px; filter: invert(100%)"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          {% endfor %} {% else %}
+          <p style="grid-column: 1 / -1; text-align: center">
+            პროდუქტები ვერ მოიძებნა.
+          </p>
+          {% endif %}
+        </div>
+      </section>
 
+      <!-- Footer -->
+      <footer class="container-footer">
+        <section class="container-footer-section">
+          <h2 class="container-footer-title">Brands</h2>
+          <ul class="footer-brands-list" style="list-style: none; padding: 0">
+            <li><a href="#" class="footer-brands-link">Apple</a></li>
+            <li><a href="#" class="footer-brands-link">Acer</a></li>
+            <li><a href="#" class="footer-brands-link">Asus</a></li>
+            <li><a href="#" class="footer-brands-link">Lenovo</a></li>
+          </ul>
+        </section>
+        <section class="container-footer-section">
+          <h2 class="container-footer-title">Information</h2>
+          <ul class="footer-pages-list" style="list-style: none; padding: 0">
+            <li><a href="#" class="footer-pages-link">Blog</a></li>
+            <li><a href="#" class="footer-pages-link">Delivery</a></li>
+            <li><a href="#" class="footer-pages-link">About us</a></li>
+          </ul>
+        </section>
+        <section class="container-footer-section">
+          <h2 class="container-footer-title">Contact</h2>
+          <address class="footer-address" style="font-style: normal">
+            <a href="#" class="footer-address-text"
+              >Tbilisi, str, Rustaveli 24</a
+            ><br />
+            <a href="#" class="footer-address-text">+(32)2 56 78 98</a>
+          </address>
+        </section>
+      </footer>
+    </div>
   </body>
 </html>

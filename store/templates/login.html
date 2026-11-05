@@ -1,19 +1,22 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>Login</title>
   </head>
   <body>
-    <h2>შესვლა</h2>
-
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">შესვლა</button>
-    </form>
-
-    <p>
-      არ გაქვს ანგარიში? <a href="{% url 'store:register' %}">რეგისტრაცია</a>
-    </p>
+    <div class="auth-container">
+      <h2>შესვლა</h2>
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">შესვლა</button>
+      </form>
+      <p style="text-align: center; margin-top: 15px">
+        არ გაქვს ანგარიში? <a href="{% url 'store:register' %}">რეგისტრაცია</a>
+      </p>
+    </div>
   </body>
 </html>

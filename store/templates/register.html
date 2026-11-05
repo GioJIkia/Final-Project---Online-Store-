@@ -1,26 +1,25 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>Register</title>
   </head>
   <body>
-    <h2>რეგისტრაცია</h2>
-
-    {% if messages %}
-    <div>
-      {% for message in messages %}
-      <p>{{ message }}</p>
-      {% endfor %}
+    <div class="auth-container">
+      <h2>რეგისტრაცია</h2>
+      {% if messages %} {% for message in messages %}
+      <p class="auth-error-message">{{ message }}</p>
+      {% endfor %} {% endif %}
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">რეგისტრაცია</button>
+      </form>
+      <p style="text-align: center; margin-top: 15px">
+        უკვე გაქვს ანგარიში? <a href="{% url 'store:login' %}">შესვლა</a>
+      </p>
     </div>
-    {% endif %}
-
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">რეგისტრაცია</button>
-    </form>
-
-    <p>უკვე გაქვს ანგარიში? <a href="{% url 'store:login' %}">შესვლა</a></p>
   </body>
 </html>

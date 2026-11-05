@@ -1,0 +1,423 @@
+/* .auth-container {
+  max-width: 400px;
+  margin: 150px auto;
+  background-color: var(--primary-color-dark-teal-gray);
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-coror-bright-cyan);
+  box-shadow: 0 0 20px rgba(5, 188, 202, 0.2);
+}
+
+.auth-container h2 {
+  color: var(--primary-coror-bright-cyan);
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+.auth-container p, 
+.auth-container label {
+  color: var(--secondary-color-light-gray);
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: transparent;
+  border: 1px solid var(--primary-coror-bright-cyan);
+  color: var(--secondary-color-white);
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.auth-container input:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--primary-coror-bright-cyan);
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--secondary-color-orange);
+  border: none;
+  color: var(--secondary-color-white);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s linear;
+}
+
+.auth-container button:hover {
+  background-color: #d97834;
+  box-shadow: 0 0 15px var(--secondary-color-orange);
+}
+
+.auth-container a {
+  color: var(--primary-coror-bright-cyan);
+  text-decoration: none;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
+
+.auth-error-message {
+  color: var(--secondary-color-orange);
+  font-size: 14px;
+  margin-bottom: 10px;
+} */
+
+@import url(variable.css);
+
+body {
+  font-family: var(--font-family-main);
+  background-color: var(--primary-color-dark-cyan-green);
+  color: var(--secondary-color-white);
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------- container-style ------------------- */
+.container {
+  width: min(100%, 1440px);
+  margin: auto;
+  padding-top: 100px;
+}
+
+/* ------------------- header ------------------- */
+.container-header {
+  padding: 16px 94px;
+  border-bottom: 2px solid var(--primary-coror-bright-cyan);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  max-width: 1440px;
+  width: 100%;
+  box-sizing: border-box;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: var(--primary-color-dark-cyan-green);
+}
+
+.header-menu-items {
+  display: flex;
+  column-gap: 72px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-page-link {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--primary-coror-bright-cyan);
+  text-decoration: none;
+  position: relative;
+}
+
+.header-page-link::before {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-coror-bright-cyan);
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: 0.5s linear;
+}
+
+.header-page-link:hover::before {
+  width: 100%;
+}
+
+.header-buttons {
+  display: flex;
+  column-gap: 32px;
+  align-items: center;
+}
+
+.header-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid var(--primary-coror-bright-cyan);
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--secondary-color-white);
+}
+
+.header-button:hover {
+  box-shadow: 0 0 20px var(--primary-coror-bright-cyan);
+}
+
+.user-icon {
+  background-color: var(--primary-coror-bright-cyan);
+  border: none;
+}
+
+/* ------------------- catalog & filters ------------------- */
+.page-2-section-container {
+  padding: 96px 94px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 64px;
+  align-items: center;
+}
+
+.page-2-filter-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--primary-coror-bright-cyan);
+  background: transparent;
+  font-size: 16px;
+  color: var(--primary-coror-bright-cyan);
+}
+
+.page-1-slider-next-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary-coror-bright-cyan);
+  color: var(--secondary-color-light-gray);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.page-1-slider-next-button:hover {
+  box-shadow: 0 0 20px var(--primary-coror-bright-cyan);
+}
+
+/* ------------------- products grid ------------------- */
+.page-2-products-catalog-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 20px;
+}
+
+.page-2-products-catalog-card {
+  padding-bottom: 16px;
+  background-color: var(--primary-color-dark-teal-gray);
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.5s linear;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.page-2-products-catalog-card:hover {
+  box-shadow: 0 0 20px var(--primary-coror-bright-cyan);
+}
+
+.page-2-products-catalog-card-image-box {
+  width: 100%;
+  height: 270px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.page-2-products-catalog-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: 0.5s linear;
+}
+
+.page-2-products-catalog-card:hover .page-2-products-catalog-card-image {
+  transform: scale(1.1);
+}
+
+.page-2-products-catalog-card-title-price-and-button-container {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 12px;
+  row-gap: 12px;
+}
+
+.page-2-products-catalog-card-title {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--secondary-color-light-gray);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.page-2-products-catalog-card-price-and-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-2-products-catalog-card-price {
+  font-size: 16px;
+  color: var(--primary-coror-bright-cyan);
+}
+
+.page-2-products-catalog-card-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--secondary-color-orange);
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+.page-2-products-catalog-card-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--secondary-color-orange);
+}
+
+/* ------------------- footer ------------------- */
+.container-footer {
+  display: flex;
+  justify-content: center;
+  column-gap: 157px;
+  padding-block: 48px;
+  border-top: 2px solid var(--primary-coror-bright-cyan);
+  margin-top: 50px;
+}
+
+.container-footer-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.container-footer-title {
+  font-size: 24px;
+  color: var(--primary-coror-bright-cyan);
+  margin: 0;
+}
+
+.footer-brands-list,
+.footer-pages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.footer-brands-link,
+.footer-pages-link,
+.footer-address-text {
+  font-size: 16px;
+  color: var(--primary-coror-bright-cyan);
+  text-decoration: none;
+  transition: 0.3s linear;
+}
+
+.footer-brands-link:hover,
+.footer-pages-link:hover,
+.footer-address-text:hover {
+  transform: scale(1.1);
+  display: inline-block;
+}
+
+/* ------------------- Auth Pages Style (Login & Register) ------------------- */
+.auth-container {
+  max-width: 400px;
+  margin: 150px auto;
+  background-color: var(--primary-color-dark-teal-gray);
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-coror-bright-cyan);
+  box-shadow: 0 0 20px rgba(5, 188, 202, 0.2);
+}
+
+.auth-container h2 {
+  color: var(--primary-coror-bright-cyan);
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+.auth-container p,
+.auth-container label {
+  color: var(--secondary-color-light-gray);
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: transparent;
+  border: 1px solid var(--primary-coror-bright-cyan);
+  color: var(--secondary-color-white);
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.auth-container input:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--primary-coror-bright-cyan);
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--secondary-color-orange);
+  border: none;
+  color: var(--secondary-color-white);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s linear;
+}
+
+.auth-container button:hover {
+  background-color: #d97834;
+  box-shadow: 0 0 15px var(--secondary-color-orange);
+}
+
+.auth-container a {
+  color: var(--primary-coror-bright-cyan);
+  text-decoration: none;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
+
+.auth-error-message {
+  color: var(--secondary-color-orange);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
