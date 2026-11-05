@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h2>შესვლა</h2>
+
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">შესვლა</button>
+    </form>
+
+    <p>
+      არ გაქვს ანგარიში? <a href="{% url 'store:register' %}">რეგისტრაცია</a>
+    </p>
+  </body>
+</html>

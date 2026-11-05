@@ -1,0 +1,26 @@
+pip -V შემოწმება რომელ საქაღალდეში მუშაობ კოდით
+
+.venv\Scripts\activate - ტერმინალის გააქტიურება ჯანგოსთვის და ფლესკისთვის
+
+pip install Django - თავდაპირველად პროექტში ჯანგოს შემოტანისთვის
+
+pip freeze > requirements.txt - ცალკე ფაილად გამოტანა ტერმინალში დაყენებულის
+
+django-admin startproject conf . - საწყისი პროექტის შექმნისთვის.
+
+py manage.py - საწყისი პროექტისთვის საჭირო ფაილების თემატურად დალაგებისთვის
+
+py manage.py runserver - საიტის გაშვებისთვის
+
+py manage.py startapp polls - ახალი აპლიკაციის შექმნისთვის
+
+py manage.py makemigrations - როცა მე გავაკეთებ ბაზებს დაკავშირება
+
+py manage.py migrate - ჯანგოს მიერ შექმნილ ბაზებთან დაკავშირება
+
+
+შექმნილის მოდელების წაშლისთვის ჯერ - py manage.py makemigrations და შემდეგ py manage.py migrate 
+
+მონაცემთა ბაზასთან მუშაობაკოდით - py manage.py shell
+
+იუზერის შექმნა - py manage.py createsuperuser
