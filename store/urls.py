@@ -10,6 +10,10 @@ urlpatterns = [
     path("register/", views.RegisterPage.as_view(), name="register"),
     path("login/", views.CustomLoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(next_page="store:login"), name="logout"),
+    path("product/<int:product_id>/", views.productDetail, name="product-detail"),
+    path("cart/", views.cartView, name="cart"),
+    path("cart/add/<int:product_id>/", views.addToCart, name="add-to-cart"),
+    path("cart/update/<int:item_id>/", views.updateCartItem, name="update-cart"),
 ]
 
 
@@ -17,3 +21,4 @@ urlpatterns = [
 # 127.0.0.1:8000/register
 # 127.0.0.1:8000/login
 # 127.0.0.1:8000/logout
+# 127.0.0.1:8000/product/<int:product_id>/

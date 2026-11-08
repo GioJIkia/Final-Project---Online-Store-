@@ -1,0 +1,124 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>კალათა</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="container-header">
+        <div></div>
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-logo"
+          style="text-decoration: none"
+        >
+          <span
+            style="
+              color: var(--primary-coror-bright-cyan);
+              font-weight: bold;
+              font-size: 24px;
+            "
+            >Online Store</span
+          >
+        </a>
+        <div class="header-buttons">
+          <a
+            href="{% url 'store:card-list' %}"
+            class="header-button"
+            title="მთავარი"
+            >🏠</a
+          >
+        </div>
+      </header>
+
+      <!-- Cart Content -->
+      <main class="cart-container">
+        <h1 class="cart-title">თქვენი კალათა</h1>
+
+        {% if cart_items %}
+        <div class="cart-list">
+          {% for item in cart_items %}
+          <div class="cart-card">
+            <!-- სურათი და ძირითადი ინფო -->
+            <div class="cart-item-info">
+              {% if item.product.thumbnail %}
+              <img
+                src="{{ item.product.thumbnail }}"
+                alt="{{ item.product.title }}"
+                class="cart-item-img"
+              />
+              {% endif %}
+              <div>
+                <h3 class="cart-item-title">{{ item.product.title }}</h3>
+                <p class="cart-item-text">ფასი: ${{ item.product.price }}</p>
+                <p class="cart-item-text">
+                  საწყობშია: {{ item.product.stock }} ცალი | რეიტინგი: ⭐ {{ item.product.rating }} / 5 ({{ item.review_count }} reviews)
+                </p>
+              </div>
+            </div>
+
+            <!-- რაოდენობის მართვა (+ / -) -->
+            <div class="cart-quantity-box">
+              <a
+                href="{% url 'store:update-cart' item.id %}?action=decrease"
+                class="cart-qty-btn"
+                >-</a
+              >
+              <span class="cart-qty-value">{{ item.quantity }}</span>
+              <a
+                href="{% url 'store:update-cart' item.id %}?action=increase"
+                class="cart-qty-btn"
+                >+</a
+              >
+            </div>
+
+            <!-- ჯამური ფასი ამ ნივთისთვის -->
+            <div class="cart-item-total">${{ item.total_price }}</div>
+
+            <!-- წაშლის ღილაკი -->
+            <div>
+              <a
+                href="{% url 'store:update-cart' item.id %}?action=remove"
+                class="cart-remove-btn"
+                title="წაშლა"
+                >🗑️ წაშლა</a
+              >
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- მთლიანი ჯამი და შეკვეთა -->
+        <div class="cart-summary">
+          <h2 class="cart-summary-title">
+            სულ ჯამი: <span class="cart-summary-total">${{ total_price }}</span>
+          </h2>
+          <button
+            class="action-btn btn-cart"
+            style="padding: 12px 25px; font-size: 16px"
+          >
+            შეკვეთის გაფორმება
+          </button>
+        </div>
+
+        {% else %}
+        <div class="cart-empty-box">
+          <p class="cart-empty-text">თქვენი კალათა ცარიელია.</p>
+          <a
+            href="{% url 'store:card-list' %}"
+            class="action-btn btn-cart"
+            style="text-decoration: none; padding: 10px 20px"
+            >პროდუქტების დათვალიერება</a
+          >
+        </div>
+        {% endif %}
+      </main>
+    </div>
+  </body>
+</html>
