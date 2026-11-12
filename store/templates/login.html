@@ -8,6 +8,31 @@
     <title>Login</title>
   </head>
   <body>
+    <header class="container-header">
+      <div></div>
+      <a
+        href="{% url 'store:card-list' %}"
+        class="header-logo"
+        style="text-decoration: none"
+      >
+        <span
+          style="
+            color: var(--primary-coror-bright-cyan);
+            font-weight: bold;
+            font-size: 24px;
+          "
+          >Online Store</span
+        >
+      </a>
+      <div class="header-buttons">
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-button btn-color"
+          title="მთავარი"
+          >მთავარი გვერდი</a
+        >
+      </div>
+    </header>
     <div class="auth-container">
       <h2>შესვლა</h2>
       <form method="post">
