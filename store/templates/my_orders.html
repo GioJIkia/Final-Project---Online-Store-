@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>ჩემი შეკვეთები</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="container-header">
+        <div></div>
+        <a href="{% url 'store:card-list' %}" class="header-logo">
+          <span>Online Store</span>
+        </a>
+        <div class="header-buttons">
+          <a href="{% url 'store:card-list' %}" class="header-button btn-color" title="მთავარი">მთავარი გვერდი</a>
+        </div>
+      </header>
+
+      <!-- Orders Content -->
+      <main class="cart-container">
+        <h1 class="cart-title">ჩემი შეკვეთების ისტორია</h1>
+
+        {% if orders %}
+        <div class="orders-list-container">
+          {% for order in orders %}
+          <div class="order-card-box">
+            <div class="order-card-header">
+              <span>შეკვეთის # ID: <strong>{{ order.id }}</strong></span>
+              <span>თარიღი: {{ order.created_at|date:"d.m.Y H:i" }}</span>
+              <span class="order-total-price">სულ: ${{ order.total_price }}</span>
+            </div>
+
+            <div class="order-details-text">
+              <p>მიმღები: {{ order.first_name }} {{ order.last_name }}</p>
+              <p>მისამართი: {{ order.address }}</p>
+              <p>გადახდა: 
+                <strong>
+                  {% if order.payment_type == 'direct' or order.payment_type == 'direct_buy' %}
+                    პირდაპირი ყიდვა
+                  {% elif order.bank_choice %}
+                    განვადებით ({{ order.bank_choice|title }})
+                  {% else %}
+                    განვადება
+                  {% endif %}
+                </strong>
+              </p>
+            </div>
+
+            <!-- შეკვეთილი პროდუქტების სია -->
+            <div class="order-items-wrapper">
+              <p class="order-items-title">პროდუქტები:</p>
+              {% for item in order.items.all %}
+              <div class="order-item-row">
+                <span>{{ item.product.title }} (x{{ item.quantity }})</span>
+                <span>${{ item.price }}</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="cart-empty-box">
+          <p class="cart-empty-text">თქვენ ჯერ არ გაქვთ გაფორმებული შეკვეთები.</p>
+          <a href="{% url 'store:card-list' %}" class="action-btn btn-cart">პროდუქტების დათვალიერება</a>
+        </div>
+        {% endif %}
+      </main>
+    </div>
+  </body>
+</html>

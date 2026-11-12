@@ -1,0 +1,199 @@
+{% load static %}
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>შეკვეთის გაფორმება</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="container-header">
+        <div></div>
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-logo"
+          style="text-decoration: none"
+        >
+          <span
+            style="
+              color: var(--primary-coror-bright-cyan);
+              font-weight: bold;
+              font-size: 24px;
+            "
+            >Online Store</span
+          >
+        </a>
+        <div class="header-buttons">
+          <a
+            href="{% url 'store:card-list' %}"
+            class="header-button btn-color"
+            title="მთავარი"
+            >მთავარი გვერდი</a
+          >
+        </div>
+      </header>
+
+      <!-- Checkout Content -->
+      <main class="cart-container">
+        <h1 class="cart-title">შეკვეთის გაფორმება</h1>
+
+        <form method="POST" class="checkout-grid">
+          {% csrf_token %}
+
+          <!-- მომხმარებლის დეტალები და გადახდის მეთოდი -->
+          <div class="checkout-box">
+            <h3 class="checkout-section-title">მიწოდების დეტალები</h3>
+
+            <div class="checkout-form-group">
+              <label class="checkout-label">სახელი *</label>
+              <input
+                type="text"
+                name="first_name"
+                required
+                class="modal-input checkout-input"
+              />
+            </div>
+
+            <div class="checkout-form-group">
+              <label class="checkout-label">გვარი *</label>
+              <input
+                type="text"
+                name="last_name"
+                required
+                class="modal-input checkout-input"
+              />
+            </div>
+
+            <div class="checkout-form-group">
+              <label class="checkout-label">ტელეფონის ნომერი *</label>
+              <input
+                type="text"
+                name="phone"
+                required
+                class="modal-input checkout-input"
+                placeholder="მაგ: 599123456"
+              />
+            </div>
+
+            <div class="checkout-form-group">
+              <label class="checkout-label">მისამართი *</label>
+              <textarea
+                name="address"
+                required
+                class="modal-input checkout-input"
+                rows="3"
+                placeholder="ქუჩა, კორპუსი, ბინა..."
+              ></textarea>
+            </div>
+
+            <!-- გადახდის მეთოდები -->
+            <div class="checkout-payment-wrapper">
+              <h3 class="checkout-section-title">გადახდის მეთოდი</h3>
+              <div class="payment-methods-grid">
+                <label class="payment-method-card">
+                  <input
+                    type="radio"
+                    name="payment_type"
+                    value="direct"
+                    checked
+                    onclick="toggleBanks(false)"
+                  />
+                  <span>პირდაპირი ყიდვა</span>
+                </label>
+                <label class="payment-method-card">
+                  <input
+                    type="radio"
+                    name="payment_type"
+                    value="installment"
+                    onclick="toggleBanks(true)"
+                  />
+                  <span>განვადებით ყიდვა</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- ბანკების არჩევანი (თავიდან დამალულია) -->
+            <div id="bank-selection" class="bank-selection-box">
+              <label
+                class="checkout-label"
+                style="
+                  font-weight: bold;
+                  color: var(--primary-coror-bright-cyan);
+                "
+                >აირჩიეთ ბანკი:</label
+              >
+              <div class="bank-options-grid">
+                <label class="bank-card"
+                  ><input type="radio" name="bank_choice" value="georgia" />
+                  საქართველო</label
+                >
+                <label class="bank-card"
+                  ><input type="radio" name="bank_choice" value="tbc" />
+                  თიბისი</label
+                >
+                <label class="bank-card"
+                  ><input type="radio" name="bank_choice" value="liberty" />
+                  ლიბერთი</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- შეკვეთის შეჯამება -->
+          <div class="checkout-box-summary">
+            <h3 class="checkout-section-title">თქვენი შეკვეთა</h3>
+            <div class="checkout-items-summary">
+              {% for item in cart_items %}
+              <div class="checkout-item-row">
+                <span
+                  class="checkout-item-name"
+                  title="{{ item.product.title }}"
+                  >{{ item.product.title }} (x{{ item.quantity }})</span
+                >
+                <span style="font-weight: 500">${{ item.total_price }}</span>
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="checkout-calc-list">
+              <div class="checkout-calc-row">
+                <span>პროდუქტების ღირებულება:</span>
+                <span>${{ subtotal }}</span>
+              </div>
+              <div class="checkout-calc-row">
+                <span>მიტანის საფასური:</span>
+                <span>${{ shipping_fee }}</span>
+              </div>
+              <div class="checkout-total-row">
+                <span>სულ ჯამი:</span>
+                <span>${{ total_price }}</span>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="action-btn btn-cart checkout-submit-btn"
+            >
+              შეკვეთის დადასტურება
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script>
+      function toggleBanks(show) {
+        const bankDiv = document.getElementById("bank-selection");
+        bankDiv.style.display = show ? "block" : "none";
+        const bankRadios = bankDiv.querySelectorAll('input[type="radio"]');
+        bankRadios.forEach((radio) => {
+          radio.required = show;
+        });
+      }
+    </script>
+  </body>
+</html>

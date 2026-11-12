@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <title>Buy popular products</title>
+    <title>საუკეთესო ტექნიკა</title>
   </head>
   <body>
     <div class="container">
@@ -25,7 +25,7 @@
               font-weight: bold;
               font-size: 24px;
             "
-            >Online Store</span
+            >GIOZONE</span
           >
         </a>
 
@@ -58,6 +58,18 @@
             <img src="{% static 'images/user-icon.svg' %}" alt="user" />
           </a>
           {% endif %}
+
+          <!-- ჩემი შეკვეთების ღილაკი -->
+          <a href="{% url 'store:my-orders' %}" title="ჩემი შეკვეთები">
+            <button
+              class="header-button"
+              type="button"
+              style="width: auto; padding: 0 12px; font-size: 16px"
+            >
+              ჩემი შეკვეთები
+            </button>
+          </a>
+
           <a href="{% url 'store:cart' %}" title="კალათა">
             <button class="header-button cart-icon" type="button">
               <img src="{% static 'images/cart-icon.svg' %}" alt="cart" />
@@ -79,6 +91,7 @@
             value="{{ request.GET.search }}"
           />
 
+          <!-- კატეგორია -->
           <!-- კატეგორია -->
           <select name="category" class="filter-input">
             <option value="">All Categories</option>
@@ -269,19 +282,32 @@
                   >${{ product.price }}</span
                 >
 
-                <!-- კალათის ღილაკი არის სუფთა <a> ლინკი, რომელზეც კლიკისას ქარდის დეტალებზე გადასვლა არ გააქტიურდება -->
-                <a
-                  href="{% url 'store:add-to-cart' product.id %}"
-                  class="page-2-products-catalog-card-button"
-                  title="კალათაში დამატება"
-                  onclick="event.stopPropagation()"
-                >
-                  <img
-                    src="{% static 'images/cart-icon.svg' %}"
-                    alt="add to cart"
-                    style="width: 14px; filter: invert(100%)"
-                  />
-                </a>
+                <!-- ღილაკების კონტეინერი (ყიდვა + კალათა) -->
+                <div class="product-card-buttons-wrapper">
+                  <!-- სწრაფი ყიდვის ღილაკი -->
+                  <a
+                    href="{% url 'store:checkout' %}"
+                    class="product-buy-btn"
+                    title="შეკვეთის გაფორმება"
+                    onclick="event.stopPropagation()"
+                  >
+                    ყიდვა
+                  </a>
+
+                  <!-- კალათის ღილაკი არის სუფთა <a> ლინკი, რომელზეც კლიკისას ქარდის დეტალებზე გადასვლა არ გააქტიურდება -->
+                  <a
+                    href="{% url 'store:add-to-cart' product.id %}"
+                    class="page-2-products-catalog-card-button"
+                    title="კალათაში დამატება"
+                    onclick="event.stopPropagation()"
+                  >
+                    <img
+                      src="{% static 'images/cart-icon.svg' %}"
+                      alt="add to cart"
+                      style="width: 14px; filter: invert(100%)"
+                    />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

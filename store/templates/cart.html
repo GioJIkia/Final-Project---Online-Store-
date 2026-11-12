@@ -30,9 +30,9 @@
         <div class="header-buttons">
           <a
             href="{% url 'store:card-list' %}"
-            class="header-button"
+            class="header-button btn-color"
             title="მთავარი"
-            >🏠</a
+            >მთავარი გვერდი</a
           >
         </div>
       </header>
@@ -58,7 +58,7 @@
                 <h3 class="cart-item-title">{{ item.product.title }}</h3>
                 <p class="cart-item-text">ფასი: ${{ item.product.price }}</p>
                 <p class="cart-item-text">
-                  საწყობშია: {{ item.product.stock }} ცალი | რეიტინგი: ⭐ {{ item.product.rating }} / 5 ({{ item.review_count }} reviews)
+                  საწყობშია: {{ item.product.stock }} ცალი | რეიტინგი: ⭐ {{item.product.rating }} / 5 ({{ item.review_count }} reviews)
                 </p>
               </div>
             </div>
@@ -99,12 +99,19 @@
           <h2 class="cart-summary-title">
             სულ ჯამი: <span class="cart-summary-total">${{ total_price }}</span>
           </h2>
-          <button
+          <a
+            href="{% url 'store:checkout' %}"
             class="action-btn btn-cart"
-            style="padding: 12px 25px; font-size: 16px"
+            style="
+              padding: 12px 25px;
+              font-size: 16px;
+              text-decoration: none;
+              display: inline-block;
+              text-align: center;
+            "
           >
             შეკვეთის გაფორმება
-          </button>
+          </a>
         </div>
 
         {% else %}

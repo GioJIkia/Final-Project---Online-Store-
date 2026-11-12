@@ -6,7 +6,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 from .forms import CustomUserCreationForm
-from .models import Product, Review, CartItem
+from .models import Product, Review, CartItem, Order, OrderItem
+from decimal import Decimal
 
 
 def cardList(request):
@@ -24,9 +25,11 @@ def cardList(request):
     if search_query:
         products_list = products_list.filter(title__icontains=search_query)
 
+    # ვამოწმებთ, რომ კატეგორია არ იყოს ცარიელი (ანუ "All Categories" არ იყოს)
     if selected_category:
         products_list = products_list.filter(category__icontains=selected_category)
 
+    # ვამოწმებთ, რომ ბრენდი არ იყოს ცარიელი (ანუ "All Brands" არ იყოს)
     if selected_brand:
         products_list = products_list.filter(brand__iexact=selected_brand)
 
@@ -42,7 +45,7 @@ def cardList(request):
         except ValueError:
             pass
 
-    # სორტირება ფასის მიხედვით
+    # სორტირება ფასის მიხედვით ყოველთვის ბოლოში უნდა იყოს
     if sort_by == "price_asc":
         products_list = products_list.order_by("price")
     elif sort_by == "price_desc":
@@ -159,3 +162,72 @@ def updateCartItem(request, item_id):
         cart_item.delete()
 
     return redirect("store:cart")
+
+
+@login_required(login_url="store:login")
+def checkoutView(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    if not cart_items.exists():
+        return redirect("store:cart")
+
+    # პროდუქტების ჯამური ღირებულება (Decimal)
+    subtotal = sum(item.total_price for item in cart_items)
+    shipping_fee = Decimal("5.00")  # მიტანის საფასური Decimal ტიპის
+    total_price = subtotal + shipping_fee
+
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        phone = request.POST.get("phone")
+        address = request.POST.get("address")
+        payment_type = request.POST.get("payment_type")
+        bank_choice = (
+            request.POST.get("bank_choice") if payment_type == "installment" else None
+        )
+
+        # შევქმნათ შეკვეთა
+        order = Order.objects.create(
+            user=request.user,
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            address=address,
+            payment_type=payment_type,
+            bank_choice=bank_choice,
+            subtotal=subtotal,
+            shipping_fee=shipping_fee,
+            total_price=total_price,
+        )
+
+        # შევინახოთ შეკვეთის პროდუქტები
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                price=item.product.price,
+                quantity=item.quantity,
+            )
+
+        # გავასუფთავოთ კალათა
+        cart_items.delete()
+
+        return redirect("store:card-list")
+
+    context = {
+        "cart_items": cart_items,
+        "subtotal": subtotal,
+        "shipping_fee": shipping_fee,
+        "total_price": total_price,
+    }
+    return render(request, "checkout.html", context)
+
+
+@login_required(login_url="store:login")
+def my_ordersView(request):
+    print("VIEW IS CALLED:", Order.objects.filter(user=request.user))
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+    context = {
+        "orders": orders,
+    }
+    return render(request, "my_orders.html", context)
