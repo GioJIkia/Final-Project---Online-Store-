@@ -15,6 +15,9 @@ class Product(models.Model):
     thumbnail = models.URLField(
         max_length=500, blank=True, null=True, verbose_name="სურათის URL"
     )
+    detailed_specs = models.TextField(
+        blank=True, null=True, verbose_name="დეტალური მახასიათებლები"
+    )
 
     def __str__(self):
         return self.title

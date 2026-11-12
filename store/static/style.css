@@ -878,3 +878,56 @@ body {
 .product-buy-btn:hover {
   opacity: 0.85;
 }
+
+/* --- დეტალური ინფორმაციის დამატებითი სტილები style.css-ისთვის --- */
+
+/* მოდალური ფანჯრის შიგთავსში არსებული ტექნიკური მახასიათებლების ყუთი */
+.modal-specs-box {
+  margin: 20px 0;
+  text-align: left;
+  font-size: 14px;
+  color: var(--secondary-color-light-gray);
+  line-height: 1.6;
+}
+
+.modal-specs-box p {
+  margin-bottom: 8px;
+}
+
+/* ფორმის ველები მოდალში */
+.modal-field {
+  margin-bottom: 12px;
+}
+
+.modal-field label {
+  font-size: 14px;
+  color: var(--secondary-color-light-gray);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-buttons-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-buttons-box .action-btn {
+  flex: 1;
+  padding: 10px;
+}
+
+/* შეფასებების და კომენტარების სტილები */
+.review-comment-text {
+  margin-top: 8px;
+  color: var(--secondary-color-light-gray);
+}
+
+.review-date {
+  color: var(--secondary-color-light-gray);
+}
+
+.no-reviews-text {
+  color: var(--secondary-color-light-gray);
+  font-size: 14px;
+}
