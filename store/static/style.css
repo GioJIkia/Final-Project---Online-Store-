@@ -43,7 +43,7 @@ body {
 
 .header-page-link {
   font-weight: 400;
-  font-size: 24px;
+  font-size: 16px;
   line-height: 32px;
   color: var(--primary-coror-bright-cyan);
   text-decoration: none;
@@ -65,7 +65,13 @@ body {
 .header-page-link:hover::before {
   width: 100%;
 }
-
+.header-logo {
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 32px;
+  color: var(--primary-coror-bright-cyan);
+  text-decoration: none;
+}
 .header-buttons {
   display: flex;
   column-gap: 32px;
@@ -75,6 +81,7 @@ body {
 .header-button {
   width: 80px;
   height: 60px;
+  font-size: 16px;
   border-radius: 8px;
   border: 2px solid var(--primary-coror-bright-cyan);
   background-color: transparent;
@@ -82,7 +89,7 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: var(--secondary-color-white);
+  color: var(--primary-coror-bright-cyan);
   text-align: center;
   text-decoration: none;
 }
@@ -90,7 +97,9 @@ body {
 .header-button:hover {
   box-shadow: 0 0 20px var(--primary-coror-bright-cyan);
 }
-
+.header-button-text {
+  text-decoration: none;
+}
 .btn-color {
   background-color: var(--primary-color-dark-teal-gray);
 }
@@ -257,12 +266,14 @@ body {
 
 .container-footer-title {
   font-size: 24px;
-  color: var(--primary-coror-bright-cyan);
+  color: var(--secondary-color-light-gray);
+  text-decoration: none;
   margin: 0;
 }
 
 .footer-brands-list,
-.footer-pages-list {
+.footer-pages-list,
+.footer-contacts-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -271,12 +282,10 @@ body {
   row-gap: 8px;
 }
 
-.footer-address {
-}
 .footer-brands-link,
 .footer-pages-link,
 .footer-address-text {
-  font-size: 16px;
+  font-size: 20px;
   color: var(--primary-coror-bright-cyan);
   text-decoration: none;
   transition: 0.3s linear;
@@ -433,6 +442,7 @@ body {
 .btn-cart {
   background-color: var(--secondary-color-orange);
   color: var(--secondary-color-white);
+  text-decoration: none;
 }
 
 .btn-review {
@@ -521,7 +531,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
+  gap: 20px;
+  padding: 15px 20px;
   background: #1e1e1e;
   border-radius: 8px;
 }
@@ -530,19 +541,22 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  flex: 1;
+  min-width: 0;
 }
 
 .cart-item-img {
   width: 80px;
-  height: 80px;
   object-fit: cover;
   border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .cart-item-title {
   color: #fff;
   margin-bottom: 5px;
   font-size: 16px;
+  word-break: break-word;
 }
 
 .cart-item-text {
@@ -554,7 +568,7 @@ body {
 .cart-quantity-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .cart-qty-btn {
@@ -930,4 +944,47 @@ body {
 .no-reviews-text {
   color: var(--secondary-color-light-gray);
   font-size: 14px;
+}
+
+/* --- მიტანის პირობების გვერდის სტილები --- */
+
+.delivery-logo-link {
+  text-decoration: none;
+}
+
+.delivery-logo-text {
+  color: var(--primary-coror-bright-cyan);
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.delivery-main {
+  padding: 40px 20px;
+  color: #ffffff;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.delivery-title {
+  color: var(--secondary-color-orange);
+  margin-bottom: 20px;
+}
+
+.delivery-content {
+  line-height: 1.6;
+  color: var(--secondary-color-light-gray);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.delivery-btn-box {
+  margin-top: 30px;
+}
+
+.delivery-back-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  display: inline-block;
 }

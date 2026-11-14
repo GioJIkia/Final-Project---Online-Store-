@@ -1,0 +1,65 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'variable.css' %}" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>მიტანის პირობები</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="container-header">
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-logo delivery-logo-link"
+        >
+          <span class="delivery-logo-text">ტექნიკის ოაზისი</span>
+        </a>
+        <div class="header-buttons">
+          <a
+            href="{% url 'store:card-list' %}"
+            class="header-button btn-color"
+            title="მთავარი"
+            >მთავარი გვერდი</a
+          >
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="delivery-main">
+        <h1 class="delivery-title">მიტანის პირობები</h1>
+
+        <div class="delivery-content">
+          <p>
+            მოგესალმებით! ჩვენი ონლაინ მაღაზია უზრუნველყოფს შეძენილი პროდუქციის
+            სწრაფ და უსაფრთხო მიტანას საქართველოს მასშტაბით.
+          </p>
+
+          <h3>მიტანის ვადები</h3>
+          <p>
+            • <strong>თბილისის მასშტაბით:</strong> შეკვეთიდან 1-2 სამუშაო
+            დღეში.<br />
+            • <strong>რეგიონებში:</strong> შეკვეთიდან 2-4 სამუშაო დღის
+            განმავლობაში.
+          </p>
+
+          <h3>2. მიტანის საფასური</h3>
+          <p>
+            • თბილისში მიტანა უფასოა.<br />
+            • რეგიონებში მიტანა 10 ლარი.
+          </p>
+
+          <h3>3. შეკვეთის მიღება</h3>
+          <p>
+            კურიერთან დაკავშირებამდე მიიღებთ შეტყობინებას. გთხოვთ, ჩაბარებისას
+            შეამოწმოთ პროდუქციის მთლიანობა, ჩაბარების შემდეგ კომპანია პასუხს არ
+            აგებს პროდუქციის შესაძლო წუნზე.
+          </p>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

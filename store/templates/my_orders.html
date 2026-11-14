@@ -10,14 +10,28 @@
   </head>
   <body>
     <div class="container">
-      <!-- Header -->
       <header class="container-header">
-        <div></div>
-        <a href="{% url 'store:card-list' %}" class="header-logo">
-          <span>Online Store</span>
+        <a
+          href="{% url 'store:card-list' %}"
+          class="header-logo"
+          style="text-decoration: none"
+        >
+          <span
+            style="
+              color: var(--primary-coror-bright-cyan);
+              font-weight: bold;
+              font-size: 24px;
+            "
+            >ტექნიკის ოაზისი</span
+          >
         </a>
         <div class="header-buttons">
-          <a href="{% url 'store:card-list' %}" class="header-button btn-color" title="მთავარი">მთავარი გვერდი</a>
+          <a
+            href="{% url 'store:card-list' %}"
+            class="header-button btn-color"
+            title="მთავარი"
+            >მთავარი გვერდი</a
+          >
         </div>
       </header>
 
@@ -32,7 +46,7 @@
             <div class="order-card-header">
               <span>შეკვეთის # ID: <strong>{{ order.id }}</strong></span>
               <span>თარიღი: {{ order.created_at|date:"d.m.Y H:i" }}</span>
-              <span class="order-total-price">სულ: ${{ order.total_price }}</span>
+              <span class="order-total-price">სულ: ₾{{ order.total_price }}</span>
             </div>
 
             <div class="order-details-text">
@@ -57,7 +71,7 @@
               {% for item in order.items.all %}
               <div class="order-item-row">
                 <span>{{ item.product.title }} (x{{ item.quantity }})</span>
-                <span>${{ item.price }}</span>
+                <span>₾{{ item.price }}</span>
               </div>
               {% endfor %}
             </div>

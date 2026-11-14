@@ -12,7 +12,6 @@
     <div class="container">
       <!-- Header -->
       <header class="container-header">
-        <div></div>
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
@@ -24,7 +23,7 @@
               font-weight: bold;
               font-size: 24px;
             "
-            >Online Store</span
+            >ტექნიკის ოაზისი</span
           >
         </a>
         <div class="header-buttons">
@@ -154,7 +153,7 @@
                   title="{{ item.product.title }}"
                   >{{ item.product.title }} (x{{ item.quantity }})</span
                 >
-                <span style="font-weight: 500">${{ item.total_price }}</span>
+                <span style="font-weight: 500">₾{{ item.total_price }}</span>
               </div>
               {% endfor %}
             </div>
@@ -162,15 +161,15 @@
             <div class="checkout-calc-list">
               <div class="checkout-calc-row">
                 <span>პროდუქტების ღირებულება:</span>
-                <span>${{ subtotal }}</span>
+                <span>₾{{ subtotal }}</span>
               </div>
               <div class="checkout-calc-row">
                 <span>მიტანის საფასური:</span>
-                <span>${{ shipping_fee }}</span>
+                <span>₾{{ shipping_fee }}</span>
               </div>
               <div class="checkout-total-row">
                 <span>სულ ჯამი:</span>
-                <span>${{ total_price }}</span>
+                <span>₾{{ total_price }}</span>
               </div>
             </div>
 
