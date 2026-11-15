@@ -4,18 +4,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>მიტანის პირობები</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
-      <!-- Header -->
+      
+      <!-- ჰედერის სექცია: ლოგო და მთავარ გვერდზე დასაბრუნებელი ღილაკი -->
       <header class="container-header">
+
+        <!-- ლოგო, რომელზე კლიკითაც მომხმარებელი ბრუნდება კატალოგში -->
         <a href="{% url 'store:card-list' %}" class="header-logo">
           <span>ტექნიკის ოაზისი</span>
         </a>
         <div class="header-buttons">
+
+          <!-- ნავიგაციის ღილაკი მთავარ გვერდზე გადასასვლელად -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -24,17 +33,23 @@
           >
         </div>
       </header>
-      <!-- Main Content -->
+
+      <!-- მთავარი შიგთავსის სექცია-->
       <main class="delivery-main">
         <h1 class="delivery-title">მიტანის პირობები</h1>
 
         <div class="delivery-content">
+
+          <!-- ზოგადი მისალმება და შეტყობინება მიტანის სერვისის შესახებ -->
           <p>
             მოგესალმებით! ჩვენი ონლაინ მაღაზია უზრუნველყოფს შეძენილი პროდუქციის
             სწრაფ და უსაფრთხო მიტანას საქართველოს მასშტაბით.
           </p>
 
+          <!-- მიტანის ვადების ქვესათაური -->
           <h3 class = "delivery-content-header">მიტანის ვადები</h3>
+          
+          <!-- მიტანის ვადების ჩამონათვალი რეგიონების მიხედვით -->
           <p>
             • <strong>თბილისის მასშტაბით:</strong> შეკვეთიდან 1-2 სამუშაო
             დღეში.<br />
@@ -42,12 +57,14 @@
             განმავლობაში.
           </p>
 
+          <!-- მიტანის საფასურის ქვესათაური -->
           <h3 class = "delivery-content-header">მიტანის საფასური</h3>
           <p>
             • თბილისში მიტანა უფასოა.<br />
             • რეგიონებში მიტანა 10 ლარი.
           </p>
 
+          <!-- შეკვეთის მიღების წესებისა და პირობების ქვესათაური -->
           <h3 class = "delivery-content-header">შეკვეთის მიღება</h3>
           <p>
             კურიერთან დაკავშირებამდე მიიღებთ შეტყობინებას. გთხოვთ, ჩაბარებისას

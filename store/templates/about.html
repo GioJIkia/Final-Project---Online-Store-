@@ -4,18 +4,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>ჩვენ შესახებ</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
-      <!-- Header -->
+      
+      <!-- ჰედერის სექცია: ლოგო და მთავარ გვერდზე დასაბრუნებელი ღილაკი -->
       <header class="container-header">
+
+        <!-- ლოგო, რომელზე კლიკითაც მომხმარებელი ბრუნდება კატალოგში -->
         <a href="{% url 'store:card-list' %}" class="header-logo">
           <span>ტექნიკის ოაზისი</span>
         </a>
         <div class="header-buttons">
+          <!-- ნავიგაციის ღილაკი მთავარ გვერდზე გადასასვლელად -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -24,11 +32,15 @@
           >
         </div>
       </header>
-      <!-- Main Content -->
+
+      <!-- მთავარი შიგთავსის სექცია-->
+
       <main class="delivery-main">
         <h1 class="delivery-title">ჩვენ შესახებ</h1>
 
         <div class="delivery-content">
+
+          <!-- ზოგადი აღწერა მაღაზიის შესახებ -->
           <p>
             მოგესალმებით ჩვენს ონლაინ მაღაზიაში! ჩვენი მაღაზია აერთიანებს
             თანამედროვე ლეპტოპებისა და სმარტფონების ფართო არჩევანს. ჩვენი
@@ -37,7 +49,11 @@
             სწავლასა და მუშაობას.
           </p>
 
+          <!-- უპირატესობების ქვესათაური -->
           <h3 class = "delivery-content-header">ჩვენი უპირატესობები</h3>
+
+          <!-- კომპანიის ძირითადი უპირატესობების ჩამონათვალი -->
+
           <p>
             • <strong>საიმედოობა:</strong> გთავაზობთ მხოლოდ ოფიციალურ და
             შემოწმებულ პროდუქციას.<br />
@@ -47,6 +63,7 @@
             დაგეხმაროთ სწორი არჩევანის გაკეთებაში.
           </p>
 
+          <!-- კომპანიის მიზნებისა და ხედვის ქვესათაური -->
           <h3 class = "delivery-content-header">ჩვენი მიზანი</h3>
           <p>
             გვჯერა, რომ ხარისხიანი ტექნოლოგია ყოველდღიური ცხოვრების განუყოფელი

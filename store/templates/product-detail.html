@@ -4,14 +4,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <!-- სათაური დინამიკურად იღებს კონკრეტული პროდუქტის სახელს -->
     <title>{{ product.title }}</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
-      <!-- Header -->
+
+      <!-- Header ნავიგაციის სექცია -->
       <header class="container-header">
+
+        <!-- აპლიკაციის ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ გვერდზე -->
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
@@ -20,6 +29,8 @@
           >
         </a>
         <div class="header-buttons">
+
+          <!-- მთავარ გვერდზე დასაბრუნებელი ნავიგაციის ღილაკი -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -29,8 +40,10 @@
         </div>
       </header>
 
-      <!-- Main Product Detail -->
+      <!-- პროდუქტის დეტალური გვერდის ძირითადი სექცია -->
       <main class="product-detail-container">
+
+        <!-- პროდუქტის სურათის სექცია -->
         <div class="product-detail-image-box">
           {% if product.thumbnail %}
           <img
@@ -41,25 +54,33 @@
           {% endif %}
         </div>
 
+        <!-- პროდუქტის ინფორმაციისა და მართვის ბლოკი -->
         <div class="product-detail-info">
           <h1 class="product-detail-title">{{ product.title }}</h1>
+
+          <!-- ფასის ბლოკი (ამოწმებს ფასდაკლების არსებობას) -->
           <div class="product-detail-price">
             {% if product.discount_price %}
+
               <!-- ძველი გადახაზული ფასი -->
               <span class = "product-detail-price-main">
                 ₾{{ product.price }}
               </span>
+
               <!-- ახალი ფასდაკლებული ფასი -->
               <span class = "product-detail-price-sale">
                 ₾{{ product.discount_price }}
               </span>
             {% else %}
-              <!-- ჩვეულებრივი ფასი -->
+
+              <!-- ჩვეულებრივი ფასი ფასდაკლების არარსებობისას -->
               <span  class = "product-detail-price-main-2">
                 ₾{{ product.price }}
               </span>
             {% endif %}
           </div>
+
+          <!-- პროდუქტის ძირითადი ტექნიკური მახასიათებლები -->
           <div class="product-detail-specs">
             <p><strong>ბრენდი:</strong> {{ product.brand }}</p>
             <p><strong>კატეგორია:</strong> {{ product.category }}</p>
@@ -68,6 +89,7 @@
             <p><strong>რეიტინგი:</strong> ⭐ {{ product.rating }} / 5</p>
           </div>
 
+          <!-- მოქმედების ღილაკები (კალათაში დამატება, შეფასება, დეტალური ინფორმაცია) -->
           <div class="detail-buttons">
             <a
               href="{% url 'store:add-to-cart' product.id %}"
@@ -82,7 +104,7 @@
             </button>
           </div>
 
-          <!-- Reviews Section -->
+          <!-- მომხმარებლის შეფასებებისა და კომენტარების სექცია -->
           <div class="reviews-section">
             <h3 class="reviews-header">მომხმარებლის შეფასება</h3>
             {% if product.reviews.all %} {% for rev in product.reviews.all %}
@@ -97,6 +119,8 @@
               >
             </div>
             {% endfor %} {% else %}
+
+            <!-- შეტყობინება, თუ შეფასებები ჯერ არ არის -->
             <p class="no-reviews-text">ჯერ შეფასებები არ არის.</p>
             {% endif %}
           </div>
@@ -104,7 +128,7 @@
       </main>
     </div>
 
-    <!-- Review Modal -->
+    <!-- შეფასების დასატოვებელი მოდალური ფანჯარა -->
     <div class="modal-overlay" id="review-modal">
       <div class="modal-content">
         <h3>პროდუქტის შეფასება</h3>
@@ -145,10 +169,11 @@
       </div>
     </div>
 
-    <!-- Details Modal (Technical Specs) -->
+    <!-- დეტალური ტექნიკური მახასიათებლების მოდალური ფანჯარა -->
     <div class="modal-overlay" id="details-modal">
       <div class="modal-content">
-        <h3>{{ product.title }} - ტექნიკური დეტალები</h3>
+        <h3>{{ product.title }}ტექნიკური დეტალები
+</h3>
         <div class="modal-specs-box">
           {% if product.detailed_specs %} {{ product.detailed_specs|linebreaks}} 
           {% else %}
@@ -165,8 +190,9 @@
       </div>
     </div>
 
+    <!-- JavaScript მოდალური ფანჯრების (შეფასება და დეტალები) მართვისთვის -->
     <script>
-      // Review Modal Script
+      // შეფასების მოდალის გახსნა/დახურვის ლოგიკა
       const modal = document.getElementById("review-modal");
       const openBtn = document.getElementById("open-modal-btn");
       const closeBtn = document.getElementById("close-modal-btn");
@@ -179,7 +205,7 @@
         modal.style.display = "none";
       });
 
-      // Details Modal Script
+      // დეტალური ინფორმაციის მოდალის გახსნა/დახურვის ლოგიკა
       const detailsModal = document.getElementById("details-modal");
       const openDetailsBtn = document.getElementById("open-details-modal-btn");
       const closeDetailsBtn = document.getElementById(
@@ -194,7 +220,7 @@
         detailsModal.style.display = "none";
       });
 
-      // Window click to close both modals
+      // ფანჯრის ფონზე კლიკით ორივე მოდალის დახურვა
       window.addEventListener("click", (e) => {
         if (e.target === modal) {
           modal.style.display = "none";

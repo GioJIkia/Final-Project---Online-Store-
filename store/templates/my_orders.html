@@ -4,21 +4,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>ჩემი შეკვეთები</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
+
+      <!-- Header ნავიგაციის სექცია -->
       <header class="container-header">
+
+        <!-- აპლიკაციის ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ გვერდზე -->
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
         >
-          <span>ტექნიკის ოაზისი</span
-          >
+          <span>ტექნიკის ოაზისი</span>
         </a>
         <div class="header-buttons">
+
+          <!-- მთავარ გვერდზე დასაბრუნებელი ნავიგაციის ღილაკი -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -28,25 +37,33 @@
         </div>
       </header>
 
-      <!-- Orders Content -->
+      <!-- შეკვეთების ისტორიის მთავარი შიგთავსი -->
       <main class="cart-container">
         <h1 class="cart-title">ჩემი შეკვეთების ისტორია</h1>
 
+        <!-- ვამოწმებთ, აქვს თუ არა მომხმარებელს გაფორმებული შეკვეთები -->
         {% if orders %}
         <div class="orders-list-container">
           {% for order in orders %}
+
+          <!-- თითოეული შეკვეთის მთავარი ქარდი -->
           <div class="order-card-box">
+
+            <!-- შეკვეთის ჰედერი: ID, თარიღი და სრული თანხა -->
             <div class="order-card-header">
               <span>შეკვეთის # ID: <strong>{{ order.id }}</strong></span>
               <span>თარიღი: {{ order.created_at|date:"d.m.Y H:i" }}</span>
               <span class="order-total-price">სულ: ₾{{ order.total_price }}</span>
             </div>
 
+            <!-- მიმღების დეტალები, მისამართი და გადახდის მეთოდი -->
             <div class="order-details-text">
               <p>მიმღები: {{ order.first_name }} {{ order.last_name }}</p>
               <p>მისამართი: {{ order.address }}</p>
               <p>გადახდა: 
                 <strong>
+
+                  <!-- ვამოწმებთ გადახდის ტიპს (პირდაპირი თუ განვადება და რომელი ბანკი) -->
                   {% if order.payment_type == 'direct' or order.payment_type == 'direct_buy' %}
                     პირდაპირი ყიდვა
                   {% elif order.bank_choice %}
@@ -58,7 +75,7 @@
               </p>
             </div>
 
-            <!-- შეკვეთილი პროდუქტების სია -->
+            <!-- შეკვეთილი პროდუქტების სია ამ შეკვეთის ფარგლებში -->
             <div class="order-items-wrapper">
               <p class="order-items-title">პროდუქტები:</p>
               {% for item in order.items.all %}
@@ -72,6 +89,8 @@
           {% endfor %}
         </div>
         {% else %}
+        
+        <!-- შეტყობინება და ღილაკი, თუ მომხმარებელს შეკვეთები არ აქვს -->
         <div class="cart-empty-box">
           <p class="cart-empty-text">თქვენ ჯერ არ გაქვთ გაფორმებული შეკვეთები.</p>
           <a href="{% url 'store:card-list' %}" class="action-btn btn-cart">პროდუქტების დათვალიერება</a>

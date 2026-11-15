@@ -3,12 +3,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <title>Register</title>
+    <title>რეგისტრაცია</title>
   </head>
   <body>
+
+    <!-- ზედა ნავიგაციის ჰედერი: ლოგო და მთავარ გვერდზე გადასასვლელი ღილაკი -->
     <header class="container-header">
+
+      <!-- ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ (კატალოგის) გვერდზე -->
       <a href="{% url 'store:card-list' %}" class="header-logo">
         <span>ტექნიკის ოაზისი</span>
       </a>
@@ -21,21 +27,31 @@
         >
       </div>
     </header>
+
+    <!-- რეგისტრაციის მთავარი ფორმის კონტეინერი -->
     <div class="auth-container">
       <h2>რეგისტრაცია</h2>
+
+      <!-- სერვერული შეტყობინებების გამოტანა, თუ არსებობს -->
       {% if messages %} {% for message in messages %}
       <p class="auth-error-message">{{ message }}</p>
       {% endfor %} {% endif %}
+
+      <!-- რეგისტრაციის ფორმა (POST მეთოდით) -->
       <form method="post">
         {% csrf_token %}
 
         <!-- მომხმარებლის სახელი -->
         <div class="form-group">
           {{ form.username.label_tag }} {{ form.username }}
+
+          <!-- მომხმარებლის სახელის ინსტრუქცია/მითითება -->
           <small class="username-hint">
             მომხმარებლის სახელი უნდა შედგებოდეს მინიმუმ 4 სიმბოლოსგან და უნდა
             გამოიყენო მხოლოდ ლათინური ასოები.
           </small>
+
+          <!-- ველის ვალიდაციის შეცდომების ჩვენება, თუკი არის -->
           {% if form.username.errors %}
           <div class="error-msg">{{ form.username.errors }}</div>
           {% endif %}
@@ -44,17 +60,20 @@
         <!-- პაროლი -->
         <div class="form-group">
           {{ form.password1.label_tag }} {{ form.password1 }}
-          <!-- შენი სასურველი ტექსტი ინსტრუქციისთვის -->
+
+          <!-- პაროლის სირთულის მოთხოვნების ინსტრუქცია -->
           <small class="password-hint">
             პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, პირველი ასო უნდა იყოს
             დიდი, და უნდა გამოიყენო მხოლოდ ლათინური ასოები.
           </small>
+
+          <!-- პაროლის ველის შეცდომები -->
           {% if form.password1.errors %}
           <div class="error-msg">{{ form.password1.errors }}</div>
           {% endif %}
         </div>
 
-        <!-- პაროლის დამოწმება -->
+        <!-- პაროლის დამოწმება (განმეორებითი შეყვანა) -->
         <div class="form-group">
           {{ form.password2.label_tag }} {{ form.password2 }}
           {% if form.password2.errors %}
@@ -62,14 +81,18 @@
           {% endif %}
         </div>
 
+        <!-- რეგისტრაციის ღილაკი -->
         <button type="submit">რეგისტრაცია</button>
       </form>
+
+      <!-- ლინკი უკვე არსებული ანგარიშის მქონე მომხმარებლებისთვის (ავტორიზაციაზე გადასვლა) -->
       <p class = "register-text">უკვე გაქვს ანგარიში? <a href="{% url 'store:login' %}">შესვლა</a></p>
     </div>
   </body>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // ვპოულობთ რეგისტრაციის ფორმის ყველა ინფუთს და ვასუფთავებთ
+
+      // ვპოულობთ რეგისტრაციის ფორმის ყველა ინფუთს და ვასუფთავებთ გვერდის ჩატვირთვისას
       const formInputs = document.querySelectorAll(
         '.auth-container form input:not([type="hidden"])',
       );

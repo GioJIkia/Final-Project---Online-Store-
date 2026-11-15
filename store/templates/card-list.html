@@ -4,21 +4,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>საუკეთესო ტექნიკა</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი, რომელიც აერთიანებს მთელი გვერდის სტრუქტურას -->
     <div class="container">
-      <!-- Header -->
+
+      <!-- Header ნავიგაციის სექცია -->
       <header class="container-header">
+
+        <!-- აპლიკაციის ლოგო, რომელზე კლიკითაც გადადის მთავარ კატალოგში -->
         <a href="{% url 'store:card-list' %}" class="header-logo">
           <span>ტექნიკის ოაზისი</span>
         </a>
 
-        <!-- მარჯვენა მხარე: მომხმარებელი, გასვლა და კალათა -->
+        <!-- მარჯვენა მხარე: მომხმარებელი, გასვლა, შეკვეთები და კალათა -->
         <div class="header-buttons">
           {% if user.is_authenticated %}
+
+          <!-- თუ მომხმარებელი ავტორიზებულია, უჩვენებს მის სახელს და გამოსვლის ღილაკს -->
           <div class = "header-buttons-container">
             <span
               >{{ user.username }}</span
@@ -38,6 +47,8 @@
             </form>
           </div>
           {% else %}
+
+          <!-- თუ მომხმარებელი არ არის ავტორიზებული, უჩვენებს ლოგინის ხატულას -->
           <a href="{% url 'store:login' %}" class="header-button user-icon">
             <img src="{% static 'images/user-icon.svg' %}" alt="user" />
           </a>
@@ -52,6 +63,7 @@
             <button class="header-button" type="button">ჩემი შეკვეთები</button>
           </a>
 
+          <!-- კალათის ღილაკი დინამიკური რაოდენობის მაჩვენებლით -->
           <a href="{% url 'store:cart' %}" title="კალათა">
             <button class="header-button cart-icon" type="button">
               <img src="{% static 'images/cart-icon.svg' %}" alt="cart" />
@@ -61,10 +73,13 @@
         </div>
       </header>
 
-      <!-- Catalog / Filter & Products Section -->
+      <!-- კატალოგისა და ფილტრების სექცია -->
       <section class="section-container">
+
+        <!-- პროდუქტების ფილტრაციის ფორმა (GET მეთოდით) -->
         <form method="GET" id="filter-form" class="filter-section">
-          <!-- სახელით ძებნა -->
+
+          <!-- სახელით ძებნის ინფუთი -->
           <input
             type="text"
             name="search"
@@ -72,7 +87,8 @@
             class="filter-input"
             value="{{ request.GET.search }}"
           />
-          <!-- კატეგორია -->
+
+          <!-- კატეგორიების ჩამოსაშლელი სია -->
           <select name="category" class="filter-input">
               <option value="">ყველა კატეგორია</option>
 
@@ -84,7 +100,8 @@
                   ტელეფონი
               </option>
           </select>
-          <!-- ბრენდი -->
+
+          <!-- ბრენდების ჩამოსაშლელი სია -->
           <select name="brand" class="filter-input">
               <option value="">ყველა ბრენდი</option>
 
@@ -94,7 +111,8 @@
               <option value="asus" {% if request.GET.brand == "asus" %}selected{% endif %}>Asus</option>
               <option value="lenovo" {% if request.GET.brand == "lenovo" %}selected{% endif %}>Lenovo</option>
           </select>
-          <!-- ფასი -->
+
+          <!-- მაქსიმალური ფასის მიხედვით ფილტრაციის ინფუთი -->
           <input
             type="number"
             name="price"
@@ -103,7 +121,7 @@
             value="{{ request.GET.price }}"
           />
 
-          <!-- რეიტინგი -->
+          <!-- მინიმალური რეიტინგის ინფუთი -->
           <input
             type="number"
             step="0.1"
@@ -112,7 +130,8 @@
             class="filter-input"
             value="{{ request.GET.rating }}"
           />
-          <!-- სორტირება -->
+
+          <!-- ფასის მიხედვით სორტირების სია -->
           <select name="sort" class="filter-input">
               <option value="">დალაგება ფასით</option>
 
@@ -126,7 +145,7 @@
           </select>
         </form>
         
-        <!-- Products Grid -->
+        <!-- პროდუქტების ბადის სექცია -->
         <div class="products-catalog-section">
           {% if products %} {% for product in products %}
 
@@ -135,6 +154,7 @@
             class="products-catalog-card"
             onclick="location.href='{% url 'store:product-detail' product.id %}'"
           >
+            <!-- პროდუქტის სურათის ჩარჩო -->
             <div class="products-catalog-card-image-box">
               {% if product.thumbnail %}
               <img
@@ -144,42 +164,54 @@
               />
               {% endif %}
             </div>
+
+            <!-- პროდუქტის სათაურის, ფასისა და ღილაკების კონტეინერი -->
             <div
               class="products-catalog-card-title-price-and-button-container"
             >
               {% if product.rating %}
+
+              <!-- პროდუქტის რეიტინგის მაჩვენებელი ვარსკვლავით -->
               <div class = "products-catalog-card-title-price-and-button-container-rating">
                 ⭐ {{ product.rating }}
               </div>
               {% endif %}
 
+              <!-- პროდუქტის სათაური/სახელი -->
               <h3 class="products-catalog-card-title">
                 {{ product.title }}
               </h3>
 
+              <!-- ფასისა და მოქმედების ღილაკების შემცველი კონტეინერი -->
               <div
                 class="products-catalog-card-price-and-button-container"
               >
+                <!-- ფასის ბლოკი (ამოწმებს ფასდაკლების არსებობას) -->
                 <div class="product-price-box">
                   {% if product.discount_price %}
+
                     <!-- ძველი გადახაზული ფასი -->
                     <span class = "product-detail-price-main">
                       ₾{{ product.price }}
                     </span>
+
                     <!-- ახალი ფასდაკლებული ფასი -->
                     <span class = "product-detail-price-sale">
                       ₾{{ product.discount_price }}
                     </span>
                   {% else %}
-                    <!-- ჩვეულებრივი ფასი -->
+
+                    <!-- ჩვეულებრივი ფასი ფასდაკლების არარსებობისას -->
                     <span class="products-detail-price-main-2"
                       >₾{{ product.price }}</span
                     >
                   {% endif %}
                 </div>
-                <!-- ღილაკების კონტეინერი (ყიდვა + კალათა) -->
+
+                <!-- ღილაკების კონტეინერი (სწრაფი ყიდვა + კალათაში დამატება) -->
                 <div class="product-card-buttons-wrapper">
-                  <!-- სწრაფი ყიდვის ღილაკი -->
+
+                  <!-- სწრაფი ყიდვის ღილაკი (direct checkout) -->
                   <a
                     href="{% url 'store:direct-checkout' product.id %}"
                     class="product-buy-btn"
@@ -188,6 +220,7 @@
                   >
                     ყიდვა
                   </a>
+                  <!-- კალათაში დამატების ღილაკი ხატულით -->
                   <a
                     href="{% url 'store:add-to-cart' product.id %}"
                     class="products-catalog-card-button"
@@ -204,6 +237,8 @@
             </div>
           </div>
           {% endfor %} {% else %}
+
+          <!-- შეტყობინება, თუ პროდუქტები ვერ მოიძებნა ფილტრაციით -->
           <p>
             პროდუქტები ვერ მოიძებნა.
           </p>
@@ -211,8 +246,10 @@
         </div>
       </section>
 
-      <!-- Footer -->
+      <!-- Footer / ქვედა ნავიგაციისა და ინფორმაციის სექცია -->
       <footer class="container-footer">
+
+        <!-- ბრენდების ჩამონათვალის სექცია -->
         <section class="container-footer-section">
           <h2 class="container-footer-title">ბრენდი</h2>
           <ul class="footer-brands-list">
@@ -223,6 +260,8 @@
             <li><a href="#" class="footer-brands-link">Samsung</a></li>
           </ul>
         </section>
+
+        <!-- საინფორმაციო ბმულების სექცია -->
         <section class="container-footer-section">
           <h2 class="container-footer-title">ინფორმაცია</h2>
           <ul class="footer-pages-list">
@@ -240,6 +279,8 @@
             </li>
           </ul>
         </section>
+
+        <!-- საკონტაქტო ინფორმაციის სექცია -->
         <section class="container-footer-section">
           <h2 class="container-footer-title">კონტაქტები</h2>
           <ul class="footer-contacts-list">
@@ -261,6 +302,8 @@
     </div>
   </body>
   <script>
+    
+    // სკრიპტი ფილტრაციის ფორმის ავტომატური გაგზავნისთვის (Enter ღილაკზე ან სელექციონერის შეცვლაზე)
     const filterForm = document.getElementById("filter-form");
     if (filterForm) {
       const inputs = filterForm.querySelectorAll("input, select");

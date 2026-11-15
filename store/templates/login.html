@@ -3,12 +3,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <title>Login</title>
+    <title>ავტორიზაცია</title>
   </head>
   <body>
+
+    <!-- ზედა ნავიგაციის ჰედერი: ლოგო და მთავარ გვერდზე გადასასვლელი ღილაკი -->
     <header class="container-header">
+
+      <!-- ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ (კატალოგის) გვერდზე -->
       <a href="{% url 'store:card-list' %}" class="header-logo">
         <span>ტექნიკის ოაზისი</span>
       </a>
@@ -21,15 +26,20 @@
         >
       </div>
     </header>
+
+    <!-- ავტორიზაციის მთავარი ფორმის კონტეინერი -->
     <div class="auth-container">
       <h2>შესვლა</h2>
       <form method="post">
+
+        <!-- სერვერული მესიჯების გამოტანა (მაგ: რეგისტრაციის წარმატების გავლის შეტყობინება) -->
         {% if messages %}
         {% for message in messages %}
           <p class="auth-error-message">{{ message }}</p>
         {% endfor %}
       {% endif %}
 
+      <!-- Django-ს არასწორი მონაცემების ზოგადი შეცდომა (non_field_errors) -->
       {% if form.non_field_errors %}
         <div class="auth-error-message">
           მომხმარებლის სახელი ან პაროლი არასწორია. გთხოვთ სცადოთ თავიდან.
@@ -39,26 +49,36 @@
       <form method="post">
         {% csrf_token %}
 
-        <!-- მომხმარებლის სახელი -->
+        <!-- მომხმარებლის სახელის ველი -->
         <div class="form-group">
           {{ form.username.label_tag }} {{ form.username }}
+
+          <!-- მომხმარებლის სახელის ველის შეცდომების ჩვენება -->
           {% if form.username.errors %}
           <div class="error-msg">{{ form.username.errors }}</div>
           {% endif %}
         </div>
 
-        <!-- პაროლი -->
+        <!-- პაროლის ველი -->
         <div class="form-group">
           {{ form.password.label_tag }} {{ form.password }}
+
+          <!-- დამხმარე ტექსტი / მითითება პაროლთან დაკავშირებით -->
           <small class="password-hint">
             გთხოვთ, შეიყვანოთ სწორი მომხმარებლის სახელი და პაროლი. თუ რეგისტრირებული არ ხართ გთხოვთ გაიაროთ რეგისტრაცია
           </small>
+
+          <!-- პაროლის ველის შეცდომების ჩვენება -->
           {% if form.password.errors %}
           <div class="error-msg">{{ form.password.errors }}</div>
           {% endif %}
         </div>
+        
+        <!-- ავტორიზაციის (შესვლის) ღილაკი -->
         <button type="submit">შესვლა</button>
       </form>
+
+      <!-- ლინკი იმ მომხმარებლებისთვის, ვისაც ანგარიში არ აქვს (რეგისტრაციაზე გადასვლა) -->
       <p class = "login-text">
         არ გაქვს ანგარიში? <a href="{% url 'store:register' %}">რეგისტრაცია</a>
       </p>

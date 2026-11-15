@@ -1,11 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
+# პროდუქტის მოდელი. ინახავს ტექნიკის ძირითად მონაცემებს:
+# სახელს, ფასს, ფასდაკლებულ ფასს, ბრენდს, კატეგორიას, მარაგს, რეიტინგს და სურათის URL-ს.
 class Product(models.Model):
+
     title = models.CharField(max_length=200, verbose_name="დასახელება")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="ფასი")
-    # ფასდაკლებული ფელი (არასავალდებულოა, შეიძლება ცარიელი იყოს)
+
+    # ფასდაკლებული ფასი (არასავალდებულოა, შეიძლება ცარიელი იყოს)
     discount_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -37,8 +40,9 @@ class Product(models.Model):
             return self.discount_price
         return self.price
 
-
+#  პროდუქტის შეფასებებისა და კომენტარების მოდელი.
 class Review(models.Model):
+
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -55,8 +59,9 @@ class Review(models.Model):
     def __str__(s):
         return f"{s.user.username} - {s.product.title} ({s.rating}★)"
 
-
+#     კალათის ნივთების მოდელი. ინახავს ინფორმაციას იმის შესახებ, თუ რომელი პროდუქტი და რა რაოდენობით აქვს მომხმარებელს კალათაში.
 class CartItem(models.Model):
+
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="მომხმარებელი"
     )
@@ -71,11 +76,13 @@ class CartItem(models.Model):
 
     @property
     def total_price(self):
-        # იყენებს მიმდინარე აქტიურ ფასს (ფასდაკლებულს ან ჩვეულებრივს)
+        # იყენებს მიმდინარე აქტიურ ფასს (ფასდაკლებულს ან ჩვეულებრივს) და ამრავლებს რაოდენობაზე
         return self.product.get_price * self.quantity
 
-
+#  შეკვეთის მთავარი მოდელი.ინახავს შეკვეთის დეტალებს: მიმღების სახელს, გვარს, ტელეფონს, მისამართს,
+# გადახდის ტიპსა და არჩეულ ბანკს (განვადების შემთხვევაში), ასევე ჯამურ თანხებს.
 class Order(models.Model):
+
     BANK_CHOICES = [
         ("georgia", "საქართველოს ბანკი"),
         ("tbc", "თიბისი ბანკი"),
@@ -115,8 +122,9 @@ class Order(models.Model):
     def __str__(s):
         return f"შეკვეთა #{s.id} - {s.first_name} {s.last_name}"
 
-
+# შეკვეთაში შემავალი ცალკეული პროდუქტების მოდელი.ინახავს კონკრეტული შეკვეთის დროს შეძენილ პროდუქტს, მის ფასსა და რაოდენობას.
 class OrderItem(models.Model):
+
     order = models.ForeignKey(
         Order, related_name="items", on_delete=models.CASCADE, verbose_name="შეკვეთა"
     )

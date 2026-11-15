@@ -4,18 +4,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>კალათა</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
-      <!-- Header -->
+
+      <!-- Header ნავიგაციის სექცია -->
       <header class="container-header">
+
+        <!-- აპლიკაციის ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ გვერდზე -->
         <a href="{% url 'store:card-list' %}" class="header-logo">
           <span>ტექნიკის ოაზისი</span>
         </a>
         <div class="header-buttons">
+
+          <!-- მთავარ გვერდზე დასაბრუნებელი ნავიგაციის ღილაკი -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -25,15 +34,19 @@
         </div>
       </header>
 
-      <!-- Cart Content -->
+      <!-- Cart Content / კალათის მთავარი შიგთავსის სექცია -->
       <main class="cart-container">
         <h1 class="cart-title">თქვენი კალათა</h1>
 
+        <!-- ვამოწმებთ, არის თუ არა ნივთები კალათაში -->
         {% if cart_items %}
         <div class="cart-list">
           {% for item in cart_items %}
+
+          <!-- თითოეული ნივთის ქარდი კალათაში -->
           <div class="cart-card">
-            <!-- სურათი და ძირითადი ინფო -->
+
+            <!-- სურათი და ძირითადი ინფო (სათაური, ფასი, საწყობი, რეიტინგი) -->
             <div class="cart-item-info">
               {% if item.product.thumbnail %}
               <img
@@ -53,7 +66,7 @@
               </div>
             </div>
 
-            <!-- რაოდენობის მართვა (+ / -) -->
+            <!-- რაოდენობის მართვა (- და + ღილაკები) -->
             <div class="cart-quantity-box">
               <a
                 href="{% url 'store:update-cart' item.id %}?action=decrease"
@@ -68,10 +81,10 @@
               >
             </div>
 
-            <!-- ჯამური ფასი ამ ნივთისთვის -->
+            <!-- ჯამური ფასი ამ კონკრეტული ნივთისთვის (რაოდენობა * ფასი) -->
             <div class="cart-item-total">₾{{ item.total_price }}</div>
 
-            <!-- წაშლის ღილაკი -->
+            <!-- ნივთის სრულად წაშლის ღილაკი -->
             <div>
               <a
                 href="{% url 'store:update-cart' item.id %}?action=remove"
@@ -84,17 +97,21 @@
           {% endfor %}
         </div>
 
-        <!-- მთლიანი ჯამი და შეკვეთა -->
+        <!-- მთლიანი ჯამი და შეკვეთის გაფორმების სექცია -->
         <div class="cart-summary">
           <h2 class="cart-summary-title">
             სულ ჯამი: <span class="cart-summary-total">₾{{ total_price }}</span>
           </h2>
+
+          <!-- შეკვეთის გაფორმების გვერდზე გადასვლის ღილაკი -->
           <a href="{% url 'store:checkout' %}" class="action-btn btn-cart">
             შეკვეთის გაფორმება
           </a>
         </div>
 
         {% else %}
+        
+        <!-- შეტყობინება, თუ კალათა ცარიელია -->
         <div class="cart-empty-box">
           <p class="cart-empty-text">თქვენი კალათა ცარიელია.</p>
         </div>

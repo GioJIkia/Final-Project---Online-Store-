@@ -4,14 +4,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- გლობალური ცვლადებისა და ძირითადი სტილების ფაილების მიმაგრება -->
     <link rel="stylesheet" href="{% static 'variable.css' %}" />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>შეკვეთის გაფორმება</title>
   </head>
   <body>
+
+    <!-- მთავარი კონტეინერი -->
     <div class="container">
-      <!-- Header -->
+
+      <!-- Header ნავიგაციის სექცია -->
       <header class="container-header">
+
+        <!-- აპლიკაციის ლოგო, რომელზე კლიკითაც ბრუნდება მთავარ გვერდზე -->
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
@@ -21,6 +28,8 @@
           >
         </a>
         <div class="header-buttons">
+
+          <!-- მთავარ გვერდზე დასაბრუნებელი ნავიგაციის ღილაკი -->
           <a
             href="{% url 'store:card-list' %}"
             class="header-button btn-color"
@@ -29,10 +38,12 @@
           >
         </div>
       </header>
-      <!-- Checkout Content -->
+
+      <!-- შეკვეთის გაფორმების მთავარი შიგთავსი -->
       <main class="cart-container">
         <h1 class="cart-title">შეკვეთის გაფორმება</h1>
 
+        <!-- შეკვეთის გაფორმების ფორმა (POST მეთოდით) -->
         <form method="POST" class="checkout-grid">
           {% csrf_token %}
 
@@ -40,6 +51,7 @@
           <div class="checkout-box">
             <h3 class="checkout-section-title">მიწოდების დეტალები</h3>
 
+            <!-- სახელის შეყვანის ველი -->
             <div class="checkout-form-group">
               <label class="checkout-label">სახელი *</label>
               <input
@@ -50,6 +62,7 @@
               />
             </div>
 
+            <!-- გვარის შეყვანის ველი -->
             <div class="checkout-form-group">
               <label class="checkout-label">გვარი *</label>
               <input
@@ -60,6 +73,7 @@
               />
             </div>
 
+            <!-- ტელეფონის ნომრის შეყვანის ველი -->
             <div class="checkout-form-group">
               <label class="checkout-label">ტელეფონის ნომერი *</label>
               <input
@@ -71,6 +85,7 @@
               />
             </div>
 
+            <!-- მიტანის მისამართის ტექსტური ველი -->
             <div class="checkout-form-group">
               <label class="checkout-label">მისამართი *</label>
               <textarea
@@ -82,7 +97,7 @@
               ></textarea>
             </div>
 
-            <!-- გადახდის მეთოდები -->
+            <!-- გადახდის მეთოდების არჩევანი (პირდაპირი თუ განვადება) -->
             <div class="checkout-payment-wrapper">
               <h3 class="checkout-section-title">გადახდის მეთოდი</h3>
               <div class="payment-methods-grid">
@@ -108,7 +123,7 @@
               </div>
             </div>
 
-            <!-- ბანკების არჩევანი -->
+            <!-- ბანკების არჩევანი (მხოლოდ განვადების არჩევისას გამოჩნდება) -->
             <div id="bank-selection" class="bank-selection-box">
               <label
                 class="checkout-label"
@@ -131,15 +146,17 @@
             </div>
           </div>
 
-          <!-- შეკვეთის შეჯამება -->
+          <!-- შეკვეთის შეჯამება და კალათის ნივთების სია -->
           <div class="checkout-box-summary">
             <h3 class="checkout-section-title">თქვენი შეკვეთა</h3>
             <div class="checkout-items-summary">
               {% for item in cart_items %}
               <div class="checkout-item-row">
+                
+                <!-- პროდუქტის სახელი -->
                 <span class="checkout-item-name">{{ item.product.title }}</span>
                 
-                <!-- რაოდენობის შეცვლის ღილაკები -->
+                <!-- რაოდენობის შეცვლის ღილაკები შეკვეთის გვერდზე -->
                 <div class="checkout-item-row-2">  
                   <div class="cart-quantity-box">
                   <a href="{% url 'store:update_checkout_item' item.id %}?action=decrease" class="cart-qty-btn">-</a>
@@ -154,6 +171,7 @@
               {% endfor %}
             </div>
 
+            <!-- თანხების გამოთვლის ბლოკი (პროდუქტები, მიტანა, სრული ჯამი) -->
             <div class="checkout-calc-list">
               <div class="checkout-calc-row">
                 <span>პროდუქტების ღირებულება:</span>
@@ -169,6 +187,7 @@
               </div>
             </div>
 
+            <!-- შეკვეთის საბოლოო დადასტურების ღილაკი -->
             <button
               type="submit"
               class="action-btn btn-cart checkout-submit-btn"
@@ -180,6 +199,7 @@
       </main>
     </div>
 
+    <!-- სკრიპტი ბანკების ბლოკის ჩვენება/დამალვისთვის გადახდის ტიპის მიხედვით -->
     <script>
       function toggleBanks(show) {
         const bankDiv = document.getElementById("bank-selection");
