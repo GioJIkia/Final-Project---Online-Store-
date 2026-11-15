@@ -16,6 +16,7 @@ urlpatterns = [
     path("cart/update/<int:item_id>/", views.updateCartItem, name="update-cart"),
     path("checkout/", views.checkoutView, name="checkout"),
     path("checkout/direct/<int:product_id>/",views.directCheckoutView,name="direct-checkout"),
+    path('checkout/update/<int:item_id>/', views.updateCheckoutItem, name='update_checkout_item'),
     path("my-orders/", views.my_ordersView, name="my-orders"),
     path("delivery/", views.delivery_view, name="delivery-policy"),
     path("about/", views.about_view, name="about"),
@@ -32,6 +33,7 @@ urlpatterns = [
 # 127.0.0.1:8000/cart/update/<int:item_id>/
 # 127.0.0.1:8000/checkout
 # 127.0.0.1:8000/checkout/direct/<int:product_id>/
+# 127.0.0.1:8000/checkout/update/<int:item_id>/
 # 127.0.0.1:8000/my-orders
 # 127.0.0.1:8000/delivery
 # 127.0.0.1:8000/about

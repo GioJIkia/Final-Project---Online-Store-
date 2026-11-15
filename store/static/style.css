@@ -574,6 +574,15 @@ body {
   font-size: 14px;
   color: #ccc;
 }
+.checkout-item-row-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ccc;
+  gap: 10px;
+}
 
 .checkout-item-name {
   max-width: 70%;
@@ -842,9 +851,9 @@ body {
   flex-direction: column;
   gap: 10px;
 }
-.delivery-content-header{
+.delivery-content-header {
   margin-top: 20px;
-  color: var(--primary-coror-bright-cyan)
+  color: var(--primary-coror-bright-cyan);
 }
 
 .delivery-btn-box {

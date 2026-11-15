@@ -51,10 +51,7 @@ def cardList(request):
     elif sort_by == "price_desc":
         products_list = products_list.order_by("-price")
 
-    context = {
-        "products": products_list,
-        "sort_by": sort_by
-        }
+    context = {"products": products_list, "sort_by": sort_by}
     return render(request, "card-list.html", context)
 
 
@@ -230,15 +227,18 @@ def checkoutView(request):
 def directCheckoutView(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    cart_items = [
-        {
-            "product": product,
-            "quantity": 1,
-            "total_price": product.price,
-        }
-    ]
+    # ავტომატურად ვქმნით ან ვიღებთ CartItem-ს ამ მომხმარებლისთვის
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user, product=product
+    )
+    if not created:
+        # თუ უკვე იყო, რაოდენობას არ ვცვლით პირდაპირი ყიდვისას, ან შეგიძლია დატოვო
+        pass
 
-    subtotal = product.price
+    # ამის მერე უბრალოდ გამოვთვალოთ იგივე ლოგიკით, რაც ჩვეულებრივ checkout-შია
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    subtotal = sum(item.total_price for item in cart_items)
     shipping_fee = Decimal("5.00")
     total_price = subtotal + shipping_fee
 
@@ -248,7 +248,6 @@ def directCheckoutView(request, product_id):
         phone = request.POST.get("phone")
         address = request.POST.get("address")
         payment_type = request.POST.get("payment_type")
-
         bank_choice = (
             request.POST.get("bank_choice") if payment_type == "installment" else None
         )
@@ -266,12 +265,16 @@ def directCheckoutView(request, product_id):
             total_price=total_price,
         )
 
-        OrderItem.objects.create(
-            order=order,
-            product=product,
-            price=product.price,
-            quantity=1,
-        )
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                price=item.product.price,
+                quantity=item.quantity,
+            )
+
+        # გავასუფთავოთ კალათა შეკვეთის შემდეგ
+        cart_items.delete()
 
         return redirect("store:card-list")
 
@@ -283,6 +286,26 @@ def directCheckoutView(request, product_id):
     }
 
     return render(request, "checkout.html", context)
+
+
+@login_required(login_url="store:login")
+def updateCheckoutItem(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
+    action = request.GET.get("action")
+
+    if action == "increase":
+        cart_item.quantity += 1
+        cart_item.save()
+    elif action == "decrease":
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    elif action == "remove":
+        cart_item.delete()
+
+    return redirect("store:checkout")
 
 
 @login_required(login_url="store:login")

@@ -137,12 +137,19 @@
             <div class="checkout-items-summary">
               {% for item in cart_items %}
               <div class="checkout-item-row">
-                <span
-                  class="checkout-item-name"
-                  title="{{ item.product.title }}"
-                  >{{ item.product.title }} (x{{ item.quantity }})</span
-                >
-                <span>₾{{ item.total_price }}</span>
+                <span class="checkout-item-name">{{ item.product.title }}</span>
+                
+                <!-- რაოდენობის შეცვლის ღილაკები -->
+                <div class="checkout-item-row-2">  
+                  <div class="cart-quantity-box">
+                  <a href="{% url 'store:update_checkout_item' item.id %}?action=decrease" class="cart-qty-btn">-</a>
+                  <span class="cart-qty-value">{{ item.quantity }}</span>
+                  <a href="{% url 'store:update_checkout_item' item.id %}?action=increase" class="cart-qty-btn">+</a>
+                  </div>
+
+                <!-- თითოეული ნივთის ჯამური ფასი -->
+                  <span class="order-total-price">{{ item.total_price }} ₾</span>
+                </div>
               </div>
               {% endfor %}
             </div>
