@@ -9,19 +9,8 @@
   </head>
   <body>
     <header class="container-header">
-      <a
-        href="{% url 'store:card-list' %}"
-        class="header-logo"
-        style="text-decoration: none"
-      >
-        <span
-          style="
-            color: var(--primary-coror-bright-cyan);
-            font-weight: bold;
-            font-size: 24px;
-          "
-          >ტექნიკის ოაზისი</span
-        >
+      <a href="{% url 'store:card-list' %}" class="header-logo">
+        <span>ტექნიკის ოაზისი</span>
       </a>
       <div class="header-buttons">
         <a
@@ -38,12 +27,53 @@
       <p class="auth-error-message">{{ message }}</p>
       {% endfor %} {% endif %}
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+
+        <!-- მომხმარებლის სახელი -->
+        <div class="form-group">
+          {{ form.username.label_tag }} {{ form.username }}
+          <small class="username-hint">
+            მომხმარებლის სახელი უნდა შედგებოდეს მინიმუმ 4 სიმბოლოსგან და უნდა
+            გამოიყენო მხოლოდ ლათინური ასოები.
+          </small>
+          {% if form.username.errors %}
+          <div class="error-msg">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+
+        <!-- პაროლი -->
+        <div class="form-group">
+          {{ form.password1.label_tag }} {{ form.password1 }}
+          <!-- შენი სასურველი ტექსტი ინსტრუქციისთვის -->
+          <small class="password-hint">
+            პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, პირველი ასო უნდა იყოს
+            დიდი, და უნდა გამოიყენო მხოლოდ ლათინური ასოები.
+          </small>
+          {% if form.password1.errors %}
+          <div class="error-msg">{{ form.password1.errors }}</div>
+          {% endif %}
+        </div>
+
+        <!-- პაროლის დამოწმება -->
+        <div class="form-group">
+          {{ form.password2.label_tag }} {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="error-msg">{{ form.password2.errors }}</div>
+          {% endif %}
+        </div>
+
         <button type="submit">რეგისტრაცია</button>
       </form>
-      <p style="text-align: center; margin-top: 15px">
-        უკვე გაქვს ანგარიში? <a href="{% url 'store:login' %}">შესვლა</a>
-      </p>
+      <p class = "register-text">უკვე გაქვს ანგარიში? <a href="{% url 'store:login' %}">შესვლა</a></p>
     </div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // ვპოულობთ რეგისტრაციის ფორმის ყველა ინფუთს და ვასუფთავებთ
+      const formInputs = document.querySelectorAll(
+        '.auth-container form input:not([type="hidden"])',
+      );
+      formInputs.forEach((input) => {input.value = "";});
+    });
+  </script>
 </html>

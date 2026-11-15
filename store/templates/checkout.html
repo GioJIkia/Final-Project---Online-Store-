@@ -15,14 +15,8 @@
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
-          style="text-decoration: none"
         >
           <span
-            style="
-              color: var(--primary-coror-bright-cyan);
-              font-weight: bold;
-              font-size: 24px;
-            "
             >ტექნიკის ოაზისი</span
           >
         </a>
@@ -35,7 +29,6 @@
           >
         </div>
       </header>
-
       <!-- Checkout Content -->
       <main class="cart-container">
         <h1 class="cart-title">შეკვეთის გაფორმება</h1>
@@ -115,14 +108,10 @@
               </div>
             </div>
 
-            <!-- ბანკების არჩევანი (თავიდან დამალულია) -->
+            <!-- ბანკების არჩევანი -->
             <div id="bank-selection" class="bank-selection-box">
               <label
                 class="checkout-label"
-                style="
-                  font-weight: bold;
-                  color: var(--primary-coror-bright-cyan);
-                "
                 >აირჩიეთ ბანკი:</label
               >
               <div class="bank-options-grid">
@@ -153,7 +142,7 @@
                   title="{{ item.product.title }}"
                   >{{ item.product.title }} (x{{ item.quantity }})</span
                 >
-                <span style="font-weight: 500">₾{{ item.total_price }}</span>
+                <span>₾{{ item.total_price }}</span>
               </div>
               {% endfor %}
             </div>

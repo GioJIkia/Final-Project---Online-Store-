@@ -21,7 +21,6 @@
           {% if user.is_authenticated %}
           <div style="display: flex; align-items: center; gap: 12px">
             <span
-              style="color: var(--primary-coror-bright-cyan); font-size: 16px"
               >{{ user.username }}</span
             >
             <form
@@ -34,7 +33,6 @@
                 type="submit"
                 class="header-button"
                 title="გასვლა"
-                style="width: auto; padding: 0 12px; font-size: 16px"
               >
                 გასვლა
               </button>
@@ -65,8 +63,8 @@
       </header>
 
       <!-- Catalog / Filter & Products Section -->
-      <section class="page-2-section-container">
-        <form method="GET" id="filter-form" class="page-2-filter-section">
+      <section class="section-container">
+        <form method="GET" id="filter-form" class="filter-section">
           <!-- სახელით ძებნა -->
           <input
             type="text"
@@ -80,11 +78,11 @@
               <option value="">ყველა კატეგორია</option>
 
               <option value="laptop" {% if request.GET.category == "laptop" %}selected{% endif %}>
-                  Laptop
+                  ლეპტოპი
               </option>
 
               <option value="phone" {% if request.GET.category == "phone" %}selected{% endif %}>
-                  Phone
+                  ტელეფონი
               </option>
           </select>
           <!-- ბრენდი -->
@@ -130,26 +128,26 @@
         </form>
         
         <!-- Products Grid -->
-        <div class="page-2-products-catalog-section">
+        <div class="products-catalog-section">
           {% if products %} {% for product in products %}
 
           <!-- ქარდი არის ჩვეულებრივი div, რომელზე კლიკითაც გადადის დეტალურზე -->
           <div
-            class="page-2-products-catalog-card"
+            class="products-catalog-card"
             style="cursor: pointer"
             onclick="location.href='{% url 'store:product-detail' product.id %}'"
           >
-            <div class="page-2-products-catalog-card-image-box">
+            <div class="products-catalog-card-image-box">
               {% if product.thumbnail %}
               <img
                 src="{{ product.thumbnail }}"
                 alt="{{ product.title }}"
-                class="page-2-products-catalog-card-image"
+                class="products-catalog-card-image"
               />
               {% endif %}
             </div>
             <div
-              class="page-2-products-catalog-card-title-price-and-button-container"
+              class="products-catalog-card-title-price-and-button-container"
             >
               {% if product.rating %}
               <div
@@ -165,14 +163,14 @@
               </div>
               {% endif %}
 
-              <h3 class="page-2-products-catalog-card-title">
+              <h3 class="products-catalog-card-title">
                 {{ product.title }}
               </h3>
 
               <div
-                class="page-2-products-catalog-card-price-and-button-container"
+                class="products-catalog-card-price-and-button-container"
               >
-                <span class="page-2-products-catalog-card-price"
+                <span class="products-catalog-card-price"
                   >₾{{ product.price }}</span
                 >
 
@@ -189,7 +187,7 @@
                   </a>
                   <a
                     href="{% url 'store:add-to-cart' product.id %}"
-                    class="page-2-products-catalog-card-button"
+                    class="products-catalog-card-button"
                     title="კალათაში დამატება"
                     onclick="event.stopPropagation()"
                   >

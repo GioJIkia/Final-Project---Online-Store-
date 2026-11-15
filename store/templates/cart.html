@@ -12,19 +12,8 @@
     <div class="container">
       <!-- Header -->
       <header class="container-header">
-        <a
-          href="{% url 'store:card-list' %}"
-          class="header-logo"
-          style="text-decoration: none"
-        >
-          <span
-            style="
-              color: var(--primary-coror-bright-cyan);
-              font-weight: bold;
-              font-size: 24px;
-            "
-            >ტექნიკის ოაზისი</span
-          >
+        <a href="{% url 'store:card-list' %}" class="header-logo">
+          <span>ტექნიკის ოაზისი</span>
         </a>
         <div class="header-buttons">
           <a
@@ -100,17 +89,7 @@
           <h2 class="cart-summary-title">
             სულ ჯამი: <span class="cart-summary-total">₾{{ total_price }}</span>
           </h2>
-          <a
-            href="{% url 'store:checkout' %}"
-            class="action-btn btn-cart"
-            style="
-              padding: 12px 25px;
-              font-size: 16px;
-              text-decoration: none;
-              display: inline-block;
-              text-align: center;
-            "
-          >
+          <a href="{% url 'store:checkout' %}" class="action-btn btn-cart">
             შეკვეთის გაფორმება
           </a>
         </div>
@@ -118,12 +97,6 @@
         {% else %}
         <div class="cart-empty-box">
           <p class="cart-empty-text">თქვენი კალათა ცარიელია.</p>
-          <a
-            href="{% url 'store:card-list' %}"
-            class="action-btn btn-cart"
-            style="text-decoration: none; padding: 10px 20px"
-            >პროდუქტების დათვალიერება</a
-          >
         </div>
         {% endif %}
       </main>

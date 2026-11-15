@@ -9,19 +9,8 @@
   </head>
   <body>
     <header class="container-header">
-      <a
-        href="{% url 'store:card-list' %}"
-        class="header-logo"
-        style="text-decoration: none"
-      >
-        <span
-          style="
-            color: var(--primary-coror-bright-cyan);
-            font-weight: bold;
-            font-size: 24px;
-          "
-          >ტექნიკის ოაზისი</span
-        >
+      <a href="{% url 'store:card-list' %}" class="header-logo">
+        <span>ტექნიკის ოაზისი</span>
       </a>
       <div class="header-buttons">
         <a
@@ -38,7 +27,7 @@
         {% csrf_token %} {{ form.as_p }}
         <button type="submit">შესვლა</button>
       </form>
-      <p style="text-align: center; margin-top: 15px">
+      <p class = "login-text">
         არ გაქვს ანგარიში? <a href="{% url 'store:register' %}">რეგისტრაცია</a>
       </p>
     </div>

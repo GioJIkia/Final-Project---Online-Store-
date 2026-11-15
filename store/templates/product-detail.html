@@ -15,15 +15,8 @@
         <a
           href="{% url 'store:card-list' %}"
           class="header-logo"
-          style="text-decoration: none"
         >
-          <span
-            style="
-              color: var(--primary-coror-bright-cyan);
-              font-weight: bold;
-              font-size: 24px;
-            "
-            >ტექნიკის ოაზისი</span
+          <span>ტექნიკის ოაზისი</span
           >
         </a>
         <div class="header-buttons">
@@ -76,7 +69,7 @@
 
           <!-- Reviews Section -->
           <div class="reviews-section">
-            <h3>მომხმარებლის შეფასება</h3>
+            <h3 class="reviews-header">მომხმარებლის შეფასება</h3>
             {% if product.reviews.all %} {% for rev in product.reviews.all %}
             <div class="review-card">
               <p><strong>{{ rev.user.username }}</strong></p>
