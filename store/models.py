@@ -5,6 +5,14 @@ from django.db import models
 class Product(models.Model):
     title = models.CharField(max_length=200, verbose_name="დასახელება")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="ფასი")
+    # ფასდაკლებული ფელი (არასავალდებულოა, შეიძლება ცარიელი იყოს)
+    discount_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="ფასდაკლებული ფასი",
+    )
     brand = models.CharField(max_length=100, verbose_name="ბრენდი")
     category = models.CharField(max_length=100, verbose_name="კატეგორია")
     stock = models.PositiveIntegerField(default=0, verbose_name="მარაგი (საწყობში)")
@@ -19,8 +27,15 @@ class Product(models.Model):
         blank=True, null=True, verbose_name="დეტალური მახასიათებლები"
     )
 
-    def __str__(self):
-        return self.title
+    def __str__(s):
+        return s.title
+
+    @property
+    def get_price(self):
+        # თუ ფასდაკლებული ფასია მითითებული, დააბრუნებს მას, სხვა შემთხვევაში - ჩვეულებრივს
+        if self.discount_price:
+            return self.discount_price
+        return self.price
 
 
 class Review(models.Model):
@@ -37,8 +52,8 @@ class Review(models.Model):
     comment = models.TextField(blank=True, null=True, verbose_name="კომენტარი")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.product.title} ({self.rating}★)"
+    def __str__(s):
+        return f"{s.user.username} - {s.product.title} ({s.rating}★)"
 
 
 class CartItem(models.Model):
@@ -51,12 +66,13 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1, verbose_name="რაოდენობა")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.product.title} ({self.quantity} ცალი)"
+    def __str__(s):
+        return f"{s.user.username} - {s.product.title} ({s.quantity} ცალი)"
 
     @property
     def total_price(self):
-        return self.product.price * self.quantity
+        # იყენებს მიმდინარე აქტიურ ფასს (ფასდაკლებულს ან ჩვეულებრივს)
+        return self.product.get_price * self.quantity
 
 
 class Order(models.Model):
@@ -96,8 +112,8 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="შექმნის თარიღი")
 
-    def __str__(self):
-        return f"შეკვეთა #{self.id} - {self.first_name} {self.last_name}"
+    def __str__(s):
+        return f"შეკვეთა #{s.id} - {s.first_name} {s.last_name}"
 
 
 class OrderItem(models.Model):
@@ -110,5 +126,5 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="ფასი")
     quantity = models.PositiveIntegerField(default=1, verbose_name="რაოდენობა")
 
-    def __str__(self):
-        return f"{self.product.title if self.product else 'წაშლილი პროდუქტი'} ({self.quantity} ცალი)"
+    def __str__(s):
+        return f"{s.product.title if s.product else 'წაშლილი პროდუქტი'} ({s.quantity} ცალი)"

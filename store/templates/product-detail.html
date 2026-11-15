@@ -43,8 +43,23 @@
 
         <div class="product-detail-info">
           <h1 class="product-detail-title">{{ product.title }}</h1>
-          <div class="product-detail-price">₾{{ product.price }}</div>
-
+          <div class="product-detail-price">
+            {% if product.discount_price %}
+              <!-- ძველი გადახაზული ფასი -->
+              <span class = "product-detail-price-main">
+                ₾{{ product.price }}
+              </span>
+              <!-- ახალი ფასდაკლებული ფასი -->
+              <span class = "product-detail-price-sale">
+                ₾{{ product.discount_price }}
+              </span>
+            {% else %}
+              <!-- ჩვეულებრივი ფასი -->
+              <span  class = "product-detail-price-main-2">
+                ₾{{ product.price }}
+              </span>
+            {% endif %}
+          </div>
           <div class="product-detail-specs">
             <p><strong>ბრენდი:</strong> {{ product.brand }}</p>
             <p><strong>კატეგორია:</strong> {{ product.category }}</p>

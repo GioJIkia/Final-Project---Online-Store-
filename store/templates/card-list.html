@@ -19,14 +19,13 @@
         <!-- მარჯვენა მხარე: მომხმარებელი, გასვლა და კალათა -->
         <div class="header-buttons">
           {% if user.is_authenticated %}
-          <div style="display: flex; align-items: center; gap: 12px">
+          <div class = "header-buttons-container">
             <span
               >{{ user.username }}</span
             >
             <form
               action="{% url 'store:logout' %}"
               method="post"
-              style="display: inline; margin: 0"
             >
               {% csrf_token %}
               <button
@@ -134,7 +133,6 @@
           <!-- ქარდი არის ჩვეულებრივი div, რომელზე კლიკითაც გადადის დეტალურზე -->
           <div
             class="products-catalog-card"
-            style="cursor: pointer"
             onclick="location.href='{% url 'store:product-detail' product.id %}'"
           >
             <div class="products-catalog-card-image-box">
@@ -150,15 +148,7 @@
               class="products-catalog-card-title-price-and-button-container"
             >
               {% if product.rating %}
-              <div
-                style="
-                  font-size: 13px;
-                  color: var(--secondary-color-orange);
-                  display: flex;
-                  align-items: center;
-                  gap: 4px;
-                "
-              >
+              <div class = "products-catalog-card-title-price-and-button-container-rating">
                 ⭐ {{ product.rating }}
               </div>
               {% endif %}
@@ -170,10 +160,23 @@
               <div
                 class="products-catalog-card-price-and-button-container"
               >
-                <span class="products-catalog-card-price"
-                  >₾{{ product.price }}</span
-                >
-
+                <div class="product-price-box">
+                  {% if product.discount_price %}
+                    <!-- ძველი გადახაზული ფასი -->
+                    <span class = "product-detail-price-main">
+                      ₾{{ product.price }}
+                    </span>
+                    <!-- ახალი ფასდაკლებული ფასი -->
+                    <span class = "product-detail-price-sale">
+                      ₾{{ product.discount_price }}
+                    </span>
+                  {% else %}
+                    <!-- ჩვეულებრივი ფასი -->
+                    <span class="products-detail-price-main-2"
+                      >₾{{ product.price }}</span
+                    >
+                  {% endif %}
+                </div>
                 <!-- ღილაკების კონტეინერი (ყიდვა + კალათა) -->
                 <div class="product-card-buttons-wrapper">
                   <!-- სწრაფი ყიდვის ღილაკი -->
@@ -194,7 +197,6 @@
                     <img
                       src="{% static 'images/cart-icon.svg' %}"
                       alt="add to cart"
-                      style="width: 14px; filter: invert(100%)"
                     />
                   </a>
                 </div>
@@ -202,13 +204,7 @@
             </div>
           </div>
           {% endfor %} {% else %}
-          <p
-            style="
-              grid-column: 1 / -1;
-              text-align: center;
-              color: var(--secondary-color-light-gray);
-            "
-          >
+          <p>
             პროდუქტები ვერ მოიძებნა.
           </p>
           {% endif %}
@@ -219,7 +215,7 @@
       <footer class="container-footer">
         <section class="container-footer-section">
           <h2 class="container-footer-title">ბრენდი</h2>
-          <ul class="footer-brands-list" style="list-style: none; padding: 0">
+          <ul class="footer-brands-list">
             <li><a href="#" class="footer-brands-link">Apple</a></li>
             <li><a href="#" class="footer-brands-link">Acer</a></li>
             <li><a href="#" class="footer-brands-link">Asus</a></li>
@@ -229,7 +225,7 @@
         </section>
         <section class="container-footer-section">
           <h2 class="container-footer-title">ინფორმაცია</h2>
-          <ul class="footer-pages-list" style="list-style: none; padding: 0">
+          <ul class="footer-pages-list">
             <li>
               <a
                 href="{% url 'store:delivery-policy' %}"
@@ -246,7 +242,7 @@
         </section>
         <section class="container-footer-section">
           <h2 class="container-footer-title">კონტაქტები</h2>
-          <ul class="footer-contacts-list" style="list-style: none; padding: 0">
+          <ul class="footer-contacts-list">
             <li>
               <a
                 href="mailto:info.technoasis@gmail.com"

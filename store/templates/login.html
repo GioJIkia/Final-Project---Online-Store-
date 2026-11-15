@@ -24,7 +24,39 @@
     <div class="auth-container">
       <h2>შესვლა</h2>
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% if messages %}
+        {% for message in messages %}
+          <p class="auth-error-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        <div class="auth-error-message">
+          მომხმარებლის სახელი ან პაროლი არასწორია. გთხოვთ სცადოთ თავიდან.
+        </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- მომხმარებლის სახელი -->
+        <div class="form-group">
+          {{ form.username.label_tag }} {{ form.username }}
+          {% if form.username.errors %}
+          <div class="error-msg">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+
+        <!-- პაროლი -->
+        <div class="form-group">
+          {{ form.password.label_tag }} {{ form.password }}
+          <small class="password-hint">
+            გთხოვთ, შეიყვანოთ სწორი მომხმარებლის სახელი და პაროლი. თუ რეგისტრირებული არ ხართ გთხოვთ გაიაროთ რეგისტრაცია
+          </small>
+          {% if form.password.errors %}
+          <div class="error-msg">{{ form.password.errors }}</div>
+          {% endif %}
+        </div>
         <button type="submit">შესვლა</button>
       </form>
       <p class = "login-text">
