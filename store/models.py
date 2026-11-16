@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Avg
+
 
 # პროდუქტის მოდელი. ინახავს ტექნიკის ძირითად მონაცემებს:
-# სახელს, ფასს, ფასდაკლებულ ფასს, ბრენდს, კატეგორიას, მარაგს, რეიტინგს და სურათის URL-ს.
+# სახელს, ფასს, ფასდაკლებულ ფასს, ბრენდს, კატეგორიას, მარაგს, რეიტინგი და სურათის URL-ს.
 class Product(models.Model):
 
     title = models.CharField(max_length=200, verbose_name="დასახელება")
@@ -30,8 +32,8 @@ class Product(models.Model):
         blank=True, null=True, verbose_name="დეტალური მახასიათებლები"
     )
 
-    def __str__(s):
-        return s.title
+    def __str__(self):
+        return self.title
 
     @property
     def get_price(self):
@@ -40,7 +42,19 @@ class Product(models.Model):
             return self.discount_price
         return self.price
 
-#  პროდუქტის შეფასებებისა და კომენტარების მოდელი.
+    def update_rating(self):
+        # ვთვლით ამ პროდუქტზე არსებული ყველა შეფასების საშუალო არითმეტიკულს
+        avg_rating = self.reviews.aggregate(Avg("rating"))["rating__avg"]
+        if avg_rating is not None:
+            # ვამრგვალებთ ერთ ათწედამდე (მაგ: 4.5)
+            self.rating = round(avg_rating, 1)
+        else:
+            self.rating = 0.0
+        # ვინახავთ მხოლოდ რეიტინგისველს, რომ არ გამოიწვიოს უსარგებლო შეფერხებები
+        self.save(update_fields=["rating"])
+
+
+# პროდუქტის შეფასებებისა და კომენტარების მოდელი.
 class Review(models.Model):
 
     product = models.ForeignKey(
@@ -56,10 +70,22 @@ class Review(models.Model):
     comment = models.TextField(blank=True, null=True, verbose_name="კომენტარი")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(s):
-        return f"{s.user.username} - {s.product.title} ({s.rating}★)"
+    def __str__(self):
+        return f"{self.user.username} - {self.product.title} ({self.rating}★)"
 
-#     კალათის ნივთების მოდელი. ინახავს ინფორმაციას იმის შესახებ, თუ რომელი პროდუქტი და რა რაოდენობით აქვს მომხმარებელს კალათაში.
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # შეფასების დამატების/განახლების შემდეგ ავტომატურად ვანახლებთ პროდუქტის რეიტინგს
+        self.product.update_rating()
+
+    def delete(self, *args, **kwargs):
+        product_obj = self.product
+        super().delete(*args, **kwargs)
+        # შეფასების წაშლის შემდეგაც ავტომატურად გადაითვლება რეიტინგი
+        product_obj.update_rating()
+
+
+# კალათის ნივთების მოდელი. ინახავს ინფორმაციას იმის შესახებ, თუ რომელი პროდუქტი და რა რაოდენობით აქვს მომხმარებელს კალათაში.
 class CartItem(models.Model):
 
     user = models.ForeignKey(
@@ -71,15 +97,16 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1, verbose_name="რაოდენობა")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(s):
-        return f"{s.user.username} - {s.product.title} ({s.quantity} ცალი)"
+    def __str__(self):
+        return f"{self.user.username} - {self.product.title} ({self.quantity} ცალი)"
 
     @property
     def total_price(self):
         # იყენებს მიმდინარე აქტიურ ფასს (ფასდაკლებულს ან ჩვეულებრივს) და ამრავლებს რაოდენობაზე
         return self.product.get_price * self.quantity
 
-#  შეკვეთის მთავარი მოდელი.ინახავს შეკვეთის დეტალებს: მიმღების სახელს, გვარს, ტელეფონს, მისამართს,
+
+# შეკვეთის მთავარი მოდელი. ინახავს შეკვეთის დეტალებს: მიმღების სახელს, გვარს, ტელეფონს, მისამართს,
 # გადახდის ტიპსა და არჩეულ ბანკს (განვადების შემთხვევაში), ასევე ჯამურ თანხებს.
 class Order(models.Model):
 
@@ -119,10 +146,11 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="შექმნის თარიღი")
 
-    def __str__(s):
-        return f"შეკვეთა #{s.id} - {s.first_name} {s.last_name}"
+    def __str__(self):
+        return f"შეკვეთა #{self.id} - {self.first_name} {self.last_name}"
 
-# შეკვეთაში შემავალი ცალკეული პროდუქტების მოდელი.ინახავს კონკრეტული შეკვეთის დროს შეძენილ პროდუქტს, მის ფასსა და რაოდენობას.
+
+# შეკვეთაში შემავალი ცალკეული პროდუქტების მოდელი. ინახავს კონკრეტული შეკვეთის დროს შეძენილ პროდუქტს, მის ფასსა და რაოდენობას.
 class OrderItem(models.Model):
 
     order = models.ForeignKey(
@@ -134,5 +162,5 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="ფასი")
     quantity = models.PositiveIntegerField(default=1, verbose_name="რაოდენობა")
 
-    def __str__(s):
-        return f"{s.product.title if s.product else 'წაშლილი პროდუქტი'} ({s.quantity} ცალი)"
+    def __str__(self):
+        return f"{self.product.title if self.product else 'წაშლილი პროდუქტი'} ({self.quantity} ცალი)"

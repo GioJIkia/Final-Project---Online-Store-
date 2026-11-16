@@ -846,7 +846,7 @@ body {
   font-size: 14px;
 }
 
-/* 9. მიტანის პირობების გვერდი */
+/* 9. მიტანის პირობების საიტის შესახებ გვერდი */
 
 .delivery-logo-link {
   text-decoration: none;
@@ -891,6 +891,9 @@ body {
   text-decoration: none;
   padding: 10px 20px;
   display: inline-block;
+}
+.nice-text{
+  text-align: justify;
 }
 
 /* 10. მოდალური ფანჯრები და მიმოხილვები */
