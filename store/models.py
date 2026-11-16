@@ -46,11 +46,11 @@ class Product(models.Model):
         # ვთვლით ამ პროდუქტზე არსებული ყველა შეფასების საშუალო არითმეტიკულს
         avg_rating = self.reviews.aggregate(Avg("rating"))["rating__avg"]
         if avg_rating is not None:
-            # ვამრგვალებთ ერთ ათწედამდე (მაგ: 4.5)
+            # ვამრგვალებთ ათწილადამდე (მაგ: 4.5)
             self.rating = round(avg_rating, 1)
         else:
             self.rating = 0.0
-        # ვინახავთ მხოლოდ რეიტინგისველს, რომ არ გამოიწვიოს უსარგებლო შეფერხებები
+        # ვინახავთ მხოლოდ რეიტინგის ველს, რომ არ გამოიწვიოს უსარგებლო შეფერხებები
         self.save(update_fields=["rating"])
 
 
